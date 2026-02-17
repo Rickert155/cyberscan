@@ -1,4 +1,4 @@
-from .core import greeting
+from .core import init
 
 def main():
-    print(greeting())
+    init()

@@ -1,0 +1,5 @@
+{
+    "path_default_useragent_txt": "data/useragent.txt",
+    "path_default_useragent_json": "data/agent.json",
+    "path_default_wp_plugin": "data/wp_plagins.txt"
+}
