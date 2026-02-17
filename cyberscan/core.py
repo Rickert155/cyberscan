@@ -1,6 +1,7 @@
 import textwrap
 import os
 import json
+import shutil
 from .colors import RED, RESET, BOLD, GREEN
 from . import (
         __author__, 
@@ -63,19 +64,24 @@ class CoreSetting:
             if "path" in key:
                 if os.path.exists(value):
                     found_config.append(value)
-                    print(f"{GREEN}[OK] config: {value}{RESET}")
+                    #print(f"{GREEN}[OK] config: {value}{RESET}")
                 else:
                     not_found_config.append(value)
                     print(f"{RED}[WARNING] config not found: {value}{RESET}")
 
         return found_config, not_found_config
 
+def divide_line() -> str:
+    len_line = int(shutil.get_terminal_size().columns)-1
+    line = "-"*len_line
+    return line
 
-def greeting():
+def greeting() -> str:
     greet_text = f"""\
-    {BOLD}author:       {__author__}{RESET}\t{GREEN}{__authorurl__}{RESET}
-    {BOLD}project:      {__project__}{RESET}\t{GREEN}{__license__}{RESET}      
-    {BOLD}version:      {__version__}{RESET}
+    |{divide_line()}
+    | {BOLD}author:       {__author__}{RESET}\t{GREEN}{__authorurl__}{RESET}
+    | {BOLD}project:      {__project__}{RESET}\t{GREEN}{__license__}{RESET}      
+    | {BOLD}version:      {__version__}{RESET} \
     """
     greet_text = textwrap.dedent(greet_text)
     return greet_text

@@ -47,22 +47,27 @@ class Headers:
         if create_new_agent:
             self.create_json_agent()
 
-        path_default_useragent_json = self.settings["path_default_useragent_json"]
-        agent_list = []
-        with open(path_default_useragent_json, "r") as file:
-            data = json.load(file)
-        for agent in data:
-            agent_list.append(agent)
-        random_agent = random.choice(agent_list)
+        try:
+            path_default_useragent_json = self.settings[
+                    "path_default_useragent_json"
+                    ]
+            agent_list = []
+            with open(path_default_useragent_json, "r") as file:
+                data = json.load(file)
+            for agent in data:
+                agent_list.append(agent)
+            random_agent = random.choice(agent_list)
 
-        headers = {
-                "User-Agent":random_agent,
-                "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language":"ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-                "Accept-Encoding": "gzip, deflate, br, zstd",
-                "Connection":"keep-alive"
-                }
-        return headers
+            headers = {
+                    "User-Agent":random_agent,
+                    "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                    "Accept-Language":"ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Accept-Encoding": "gzip, deflate, br, zstd",
+                    "Connection":"keep-alive"
+                    }
+            return headers
+        except FileNotFoundError:
+            return self.create_headers(create_new_agent=True)
 
 
 
