@@ -28,3 +28,28 @@ from .header import Headers
 headers = Headers().create_headers(create_new_agent=False) 
 ```
 
+## Использование модулей
+Можно использовать CLI, для этого следует запустить основной модуль
+```sh
+python3 -m cyberscan
+```
+Результат будет примерно такой:
+```sh
+|--------------------------------------------------------
+| author:       CyberWarn	https://gitea.com/cyberwarn
+| project:      CyberScan	GPLv3      
+| version:      0.1     
+|--------------------------------------------------------
+|   CyberScan
+|   [1] Сканер плагинов WordPress
+|   [2] Определить CMS
+| >>> 
+```
+Можно использовать аргументы командной строки:
+```sh
+python3 -m cyberscan wp-plugins https://example.com
+```
+Можно использовать как модуль:
+```sh
+python3 -m cyberscan.wp_plugins --url=https://example.com
+```
