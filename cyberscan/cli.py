@@ -23,6 +23,7 @@ from .core import init, divide_line
 from . import __project__
 from .colors import RED, RESET, BLUE, GREEN, BOLD
 from .wp_plugins import scanWordPressPlugins
+from .wp_version import scanWordPressVersion
 from .helper import CyberHelp
 
 def show_menu() -> str:
@@ -30,7 +31,8 @@ def show_menu() -> str:
     |{divide_line()}
     |   {BOLD}{__project__}{RESET}
     |   {GREEN}[1] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
-    |   {GREEN}[2] {BOLD}Определить CMS: cms{RESET}
+    |   {GREEN}[2] {BOLD}Определить версию WordPress: wp-version{RESET}
+    |   {GREEN}[3] {BOLD}Определить CMS: cms{RESET}
     """
     text = textwrap.dedent(text)
     return text
@@ -41,16 +43,27 @@ def main():
     
         params = sys.argv[1:]
         if len(params) == 0:
-            item = input(f"{show_menu()}| >>> ")
-            if item == "wp-plugins" or int(item) == 1:
-                scanWordPressPlugins(url=input("URL: ").strip())
-        elif len(params) > 1 and "wp-plugins" in params[0] \
-                and "https://" in params[1] or "http://" in params[1]:
+            """Работа через меню"""
+            item = input(f"{show_menu()}| >>> ").strip()
+            if "wp-plugins" in item or item == "1":
+                scanWordPressPlugins(url=input("| URL: ").strip())
+            elif "wp-version" in item or item == "2":
+                scanWordPressVersion(url=input("| URL: ").strip())
+        elif len(params) == 2 and "wp-plugins" in params[0] \
+                and ("https://" in params[1] or "http://" in params[1]):
+            """Работа с параметрами"""
             url = params[1]
             scanWordPressPlugins(url=url)
+        elif len(params) == 2 and "wp-version" in params[0] \
+                and ("https://" in params[1] or "http://" in params[1]):
+            """Работа с параметрами"""
+            url = params[1]
+            scanWordPressVersion(url=url)
         else:
             sys.exit(CyberHelp().help_main_menu(doc=__doc__))
     except KeyboardInterrupt:
         sys.exit(f"{RED}\nExit...{RESET}")
     except ValueError as err:
+        sys.exit(CyberHelp().help_main_menu(doc=__doc__))
+    except IndexError:
         sys.exit(CyberHelp().help_main_menu(doc=__doc__))

@@ -45,11 +45,20 @@ python3 -m cyberscan
 |   [2] Определить CMS
 | >>> 
 ```
+
+## Сканер плагинов WordPress
 Можно использовать аргументы командной строки:
 ```sh
-python3 -m cyberscan wp-plugins https://example.com
+python3 -m cyberscan wp-plugins https://127.0.0.1:3000
 ```
 Можно использовать как модуль:
 ```sh
-python3 -m cyberscan.wp_plugins --url=https://example.com
+python3 -m cyberscan.wp_plugins --url=https://127.0.0.1:3000
+```
+## Сканер версии WordPress
+```sh
+python3 -m cyberscan wp-version http://127.0.0.1:3000
+```
+```sh
+python3 -m cyberscan.wp_version url=http://127.0.0.1:3000
 ```

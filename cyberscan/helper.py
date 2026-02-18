@@ -12,17 +12,22 @@ class CyberHelp:
 
     def help_wp_plugins(self, doc:str) -> str:
         text = f"""\
-        {self.greeting}\n{doc} 
         """
         text = textwrap.dedent(text)
         return text
 
     def help_main_menu(self, doc:str) -> str:
         text = f"""\
-        {self.greeting}\n{RED}{doc}{RESET}
+        {RED}{doc}{RESET}
         """
         text = textwrap.dedent(text)
         return text
 
+    def help_wp_version(self, doc:str) -> str:
+        text = f"""\
+        {RED}{doc}{RESET}
+        """
+        text = textwrap.dedent(text)
+        return text
 
 
