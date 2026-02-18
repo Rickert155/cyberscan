@@ -9,7 +9,7 @@ import sys
 from .header import Headers
 from .helper import CyberHelp
 from .colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from .core import greeting
+from .core import greeting, CoreSetting
 
 def check_wordpress(url:str) -> bool:
     """Проверяем, на WordPress сайт или нет"""
@@ -30,12 +30,32 @@ def check_wordpress(url:str) -> bool:
     except requests.exceptions.ConnectionError:
         sys.exit(f"{RED}Проверь правильность адреса: {url}{RESET}")
 
+def full_url_plugin(url:str, plugin:str) -> str:
+    """Возвращает полный url до readme.md"""
+    full_url = f"{url}/wp-content/plugins/{plugin}/readme.txt"
+    return full_url
+
+def full_list_plugins() -> list[str]:
+    "Возвращает полный список доступных для проверки плагинов"
+    list_plugins = []
+    plugins_file = CoreSetting().get_settings()["path_default_wp_plugin"]
+    with open(plugins_file, "r") as file:
+        for line in file.readlines():
+            list_plugins.append(line.strip())
+    return list_plugins
+
+def scan_list_plugin(url:str) -> None:
+    list_plugins = full_list_plugins()
+    for plugin in list_plugins:
+        full_url = full_url_plugin(url=url, plugin=plugin)
+        print(full_url)
+
+
 def scanWordPressPlugins(url:str):
     wp_status = check_wordpress(url=url)
     
     if wp_status[0] == True:
-        print(f"WordPress, status: {wp_status[1]}")
-            
+        scan_list_plugin(url=url)
 
     elif wp_status[0] != True and wp_status[1] >= 500:
         print(
