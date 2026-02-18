@@ -1,3 +1,9 @@
+""""
+Модуль: сканер версии WordPress
+Пример использования:
+    python3 -m cyberscan.wp_version "https://example.com"
+    python3 -m cyberscan wp-version url="https://example.com"
+"""
 import sys
 import requests
 from .header import Headers

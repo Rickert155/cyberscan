@@ -4,7 +4,9 @@
     python3 -m cyberscan.wp_plugins --url="https://example.com"
     python3 -m cyberscan.wp_plugins url="https://example.com"
 """
+import json
 import requests
+import os
 import sys
 from .header import Headers
 from .helper import CyberHelp
@@ -66,10 +68,14 @@ def parser_txt(response:str) -> dict[str]:
     return data
 
 def scan_list_plugin(url:str) -> None:
+    result_file_json = f'{url.split("//")[1].split("/")[0]}.json'
     headers = Headers()
     list_plugins = full_list_plugins()
     number_valid_plugin = 0
     count_plugin = 0
+    
+    all_plugins = []
+
     for plugin in list_plugins:
         count_plugin+=1
         full_url = full_url_plugin(url=url, plugin=plugin)
@@ -79,6 +85,7 @@ def scan_list_plugin(url:str) -> None:
         if response.status_code == 200:
             number_valid_plugin+=1
             data = parser_txt(response=response)
+            all_plugins.append(data)
             plugin_name = data["plugin_name"]
             plugin_version = data["plugin_version"]
             print(
@@ -88,6 +95,9 @@ def scan_list_plugin(url:str) -> None:
                     f"| {GREEN}Version:    {BOLD}{plugin_version}{RESET}"
                     )
         print(f"[{count_plugin}/{len(list_plugins)}]  {plugin}", end="\r")
+    
+    with open(result_file_json, "w") as file:
+        json.dump(all_plugins, file, indent=4)
 
 
 def scanWordPressPlugins(url:str):
