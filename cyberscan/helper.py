@@ -4,6 +4,7 @@
 """
 import textwrap
 from .core import greeting
+from .colors import RED, RESET
 
 class CyberHelp:
     def __init__(self):
@@ -12,6 +13,13 @@ class CyberHelp:
     def help_wp_plugins(self, doc:str) -> str:
         text = f"""\
         {self.greeting}\n{doc} 
+        """
+        text = textwrap.dedent(text)
+        return text
+
+    def help_main_menu(self, doc:str) -> str:
+        text = f"""\
+        {self.greeting}\n{RED}{doc}{RESET}
         """
         text = textwrap.dedent(text)
         return text

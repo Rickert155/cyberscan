@@ -26,9 +26,9 @@ def check_wordpress(url:str) -> bool:
         else:
             return False, status_code
     except requests.exceptions.InvalidURL:
-        print(CyberHelp().help_wp_plagins(doc=__doc__))
+        sys.exit(CyberHelp().help_wp_plagins(doc=__doc__))
     except requests.exceptions.ConnectionError:
-        print(f"{RED}Проверь правильность адреса: {url}{RESET}")
+        sys.exit(f"{RED}Проверь правильность адреса: {url}{RESET}")
 
 def scanWordPressPlugins(url:str):
     wp_status = check_wordpress(url=url)
