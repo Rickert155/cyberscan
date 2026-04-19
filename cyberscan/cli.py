@@ -78,6 +78,12 @@ def main():
             """Работа с параметрами"""
             url = params[1]
             scanWordPressVersion(url=url)
+        elif len(params) == 3 and "fuzz_subdomains" in params[0] \
+                and ("https://" in params[1] or "http://" in params[1]):
+            url = params[1]
+            wordlist = params[2]
+            fuzz_subdomains(url=url, wordlist_path=wordlist)
+
         else:
             sys.exit(CyberHelp().help_main_menu(doc=__doc__))
     except KeyboardInterrupt:

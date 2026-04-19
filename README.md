@@ -62,3 +62,14 @@ python3 -m cyberscan wp-version http://127.0.0.1:3000
 ```sh
 python3 -m cyberscan.cms.wp_version url=http://127.0.0.1:3000
 ```
+
+## Сканер поддоменов
+> Для сканирования поддоменов необходимо указать URL и путь к wordlist для перебора(в инструмент добавлены тестовые вордлисты data/wordlist)
+Использование аргументов командной строки
+```sh
+python3 -m cyberscan fuzz_subdomains https://example.com data/wordlist/web/subdomains.txt
+```
+Использование, как модуля:
+```sh
+python3 -m cyberscan.fuzz.fuzz_subdomain --url="https://example.com" --wordlist=data/wordlist/web/subdomains.txt
+```
