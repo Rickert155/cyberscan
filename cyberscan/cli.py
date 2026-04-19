@@ -19,12 +19,12 @@
 """
 import textwrap
 import sys
-from .core import init, divide_line
-from . import __project__
-from .colors import RED, RESET, BLUE, GREEN, BOLD
-from .wp_plugins import scanWordPressPlugins
-from .wp_version import scanWordPressVersion
-from .helper import CyberHelp
+from cyberscan.core.core import init, divide_line
+from __init__ import __project__
+from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD
+from cyberscan.cms.wp_plugins import scanWordPressPlugins
+from cyberscan.cms.wp_version import scanWordPressVersion
+from cyberscan.core.helper import CyberHelp
 
 def show_menu() -> str:
     text = f"""\

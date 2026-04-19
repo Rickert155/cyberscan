@@ -8,10 +8,10 @@ import json
 import requests
 import os
 import sys
-from .header import Headers
-from .helper import CyberHelp
-from .colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from .core import greeting, CoreSetting, divide_line
+from cyberscan.core.header import Headers
+from cyberscan.core.helper import CyberHelp
+from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
+from cyberscan.core.core import greeting, CoreSetting, divide_line
 
 def check_wordpress(url:str) -> bool:
     """Проверяем, на WordPress сайт или нет"""
@@ -80,22 +80,25 @@ def scan_list_plugin(url:str) -> None:
         count_plugin+=1
         full_url = full_url_plugin(url=url, plugin=plugin)
         #print(full_url)
-        header = headers.create_headers()
-        response = requests.get(full_url, headers=header)
-        if response.status_code == 200:
-            number_valid_plugin+=1
-            data = parser_txt(response=response)
-            all_plugins.append(data)
-            plugin_name = data["plugin_name"]
-            plugin_version = data["plugin_version"]
-            print(
-                    f"|{divide_line()}\n"
-                    f"| [{number_valid_plugin}]\n"
-                    f"| {GREEN}Plugin:     {BOLD}{plugin_name}{RESET}\n"
-                    f"| {GREEN}Version:    {BOLD}{plugin_version}{RESET}"
-                    )
-        print(f"[{count_plugin}/{len(list_plugins)}]  {plugin}", end="\r")
-    
+        try:
+            header = headers.create_headers()
+            response = requests.get(full_url, headers=header)
+            if response.status_code == 200:
+                number_valid_plugin+=1
+                data = parser_txt(response=response)
+                all_plugins.append(data)
+                plugin_name = data["plugin_name"]
+                plugin_version = data["plugin_version"]
+                print(
+                        f"|{divide_line()}\n"
+                        f"| [{number_valid_plugin}]\n"
+                        f"| {GREEN}Plugin:     {BOLD}{plugin_name}{RESET}\n"
+                        f"| {GREEN}Version:    {BOLD}{plugin_version}{RESET}"
+                        )
+            print(f"[{count_plugin}/{len(list_plugins)}]  {plugin}", end="\r")
+        except requests.exceptions.ConnectionError:
+            pass
+
     with open(result_file_json, "w") as file:
         json.dump(all_plugins, file, indent=4)
 

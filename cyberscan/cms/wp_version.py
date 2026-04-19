@@ -6,10 +6,10 @@
 """
 import sys
 import requests
-from .header import Headers
-from .helper import CyberHelp
-from .core import greeting, divide_line
-from .colors import GREEN, RESET, BOLD 
+from cyberscan.core.header import Headers
+from cyberscan.core.helper import CyberHelp
+from cyberscan.core.core import greeting, divide_line
+from cyberscan.core.colors import GREEN, RESET, BOLD 
 from bs4 import BeautifulSoup
 
 

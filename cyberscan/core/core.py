@@ -2,8 +2,8 @@ import textwrap
 import os
 import json
 import shutil
-from .colors import RED, RESET, BOLD, GREEN
-from . import (
+from cyberscan.core.colors import RED, RESET, BOLD, GREEN
+from __init__ import (
         __author__, 
         __version__, 
         __project__, 
