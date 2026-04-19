@@ -25,6 +25,7 @@ from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD
 from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
 from cyberscan.core.helper import CyberHelp
+from cyberscan.social.cyberwarnuser import cyberwarnuser
 
 def show_menu() -> str:
     text = f"""\
@@ -32,7 +33,7 @@ def show_menu() -> str:
     |   {BOLD}{__project__}{RESET}
     |   {GREEN}[1] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
     |   {GREEN}[2] {BOLD}Определить версию WordPress: wp-version{RESET}
-    |   {GREEN}[3] {BOLD}Определить CMS: cms{RESET}
+    |   {GREEN}[3] {BOLD}Поиск по username: username{RESET}
     """
     text = textwrap.dedent(text)
     return text
@@ -49,6 +50,8 @@ def main():
                 scanWordPressPlugins(url=input("| URL: ").strip())
             elif "wp-version" in item or item == "2":
                 scanWordPressVersion(url=input("| URL: ").strip())
+            elif "username" in item or item == "3":
+                cyberwarnuser(username=input("| Username: ").strip())
         elif len(params) == 2 and "wp-plugins" in params[0] \
                 and ("https://" in params[1] or "http://" in params[1]):
             """Работа с параметрами"""
