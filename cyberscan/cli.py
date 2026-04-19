@@ -49,14 +49,24 @@ def main():
         if len(params) == 0:
             """Работа через меню"""
             item = input(f"{show_menu()}| >>> ").strip()
+            """WP plugins"""
             if "wp-plugins" in item or item == "1":
                 scanWordPressPlugins(url=input("| URL: ").strip())
+            
             elif "wp-version" in item or item == "2":
+                """WP version"""
                 scanWordPressVersion(url=input("| URL: ").strip())
+            
             elif "username" in item or item == "3":
+                """Search by username"""
                 cyberwarnuser(username=input("| Username: ").strip())
+            
             elif "fuzz_subdomains" in item or item == "4":
-                fuzz_subdomains(url=input("| URL: ").strip())
+                """Search subdomains"""
+                fuzz_subdomains(
+                        url=input("| URL: ").strip(),
+                        wordlist=input("| Wordlist(path): ").strip()
+                        )
 
         elif len(params) == 2 and "wp-plugins" in params[0] \
                 and ("https://" in params[1] or "http://" in params[1]):

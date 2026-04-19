@@ -90,7 +90,7 @@ def greeting() -> str:
 def init():
     print(greeting())
     settings = CoreSetting()
-    settings.get_settings(show_settings=True)
+    settings.get_settings(show_settings=False)
     settings.check_path_config()
 
 
