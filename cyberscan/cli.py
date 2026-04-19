@@ -26,6 +26,7 @@ from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
 from cyberscan.core.helper import CyberHelp
 from cyberscan.social.cyberwarnuser import cyberwarnuser
+from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 
 def show_menu() -> str:
     text = f"""\
@@ -34,6 +35,8 @@ def show_menu() -> str:
     |   {GREEN}[1] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
     |   {GREEN}[2] {BOLD}Определить версию WordPress: wp-version{RESET}
     |   {GREEN}[3] {BOLD}Поиск по username: username{RESET}
+    |   {GREEN}[4] {BOLD}Поиск поддоменов: fuzz_subdomains{RESET}
+    |   {GREEN}[5] {BOLD}Поиск файлов/директорий: fuzz_dirs{RESET}
     """
     text = textwrap.dedent(text)
     return text
@@ -52,6 +55,9 @@ def main():
                 scanWordPressVersion(url=input("| URL: ").strip())
             elif "username" in item or item == "3":
                 cyberwarnuser(username=input("| Username: ").strip())
+            elif "fuzz_subdomains" in item or item == "4":
+                fuzz_subdomains(url=input("| URL: ").strip())
+
         elif len(params) == 2 and "wp-plugins" in params[0] \
                 and ("https://" in params[1] or "http://" in params[1]):
             """Работа с параметрами"""

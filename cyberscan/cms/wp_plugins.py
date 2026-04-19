@@ -1,8 +1,8 @@
 """
 Модуль: Сканер плагинов WordPress
 Пример использования:
-    python3 -m cyberscan.wp_plugins --url="https://example.com"
-    python3 -m cyberscan.wp_plugins url="https://example.com"
+    python3 -m cyberscan.cms.wp_plugins --url="https://example.com"
+    python3 -m cyberscan.cms.wp_plugins url="https://example.com"
 """
 import json
 import requests
