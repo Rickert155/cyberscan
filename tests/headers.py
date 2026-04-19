@@ -1,7 +1,7 @@
 """
 Тестирование генераторов заголовков
 """
-from cyberscan.header import Headers
+from cyberscan.core.header import Headers
 
 headers = Headers().create_headers()
 print(headers)

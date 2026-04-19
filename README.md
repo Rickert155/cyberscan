@@ -21,7 +21,7 @@ python3 -m tests.headers
 ```
 Для работы из другого модуля можно необходимо импорторовать класс Headers из модуля header и вызвать метод create_headers 
 ```python3
-from .header import Headers
+from cyberwarn.core.header import Headers
 
 # Можно использовать параметр create_new_agent со значением True
 # для обновления заголовков в json
