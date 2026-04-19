@@ -122,12 +122,15 @@ def scanWordPressPlugins(url:str):
 
 if __name__ == "__main__":
     print(greeting())
-    params = sys.argv[1:]
-    if len(params) != 0 and "url=" in params[0] \
-            and ("http://" in params[0] or "https://" in params[0]) \
-            and len(params[0].split("url=")[1]) > 0:
-        url = params[0].split("url=")[1]
-        if url[-1] == "/": url = url[:-1]
-        scanWordPressPlugins(url=url)
-    else:
-        print(CyberHelp().help_wp_plugins(doc=__doc__))
+    try:
+        params = sys.argv[1:]
+        if len(params) != 0 and "url=" in params[0] \
+                and ("http://" in params[0] or "https://" in params[0]) \
+                and len(params[0].split("url=")[1]) > 0:
+            url = params[0].split("url=")[1]
+            if url[-1] == "/": url = url[:-1]
+            scanWordPressPlugins(url=url)
+        else:
+            print(CyberHelp().help_wp_plugins(doc=__doc__))
+    except KeyboardInterrupt:
+        sys.exit(f"{RED}\nExit...{RESET}")
