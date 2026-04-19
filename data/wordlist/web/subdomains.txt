@@ -17,3 +17,5 @@ development
 digital
 app
 git
+support
+blog
