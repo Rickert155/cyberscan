@@ -27,6 +27,7 @@ from cyberscan.cms.wp_version import scanWordPressVersion
 from cyberscan.core.helper import CyberHelp
 from cyberscan.social.cyberwarnuser import cyberwarnuser
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
+from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
 
 def show_menu() -> str:
     text = f"""\
@@ -58,6 +59,13 @@ def main():
             if "fuzz_subdomain" in item or item == "1":
                 """Search subdomains"""
                 fuzz_subdomains(
+                        url=input("| URL: ").strip(),
+                        wordlist_path=input("| Wordlist(path): ").strip()
+                        )
+            
+            elif "fuzz_dirs" in item or item == "2":
+                """Search subdomains"""
+                fuzz_dirs(
                         url=input("| URL: ").strip(),
                         wordlist_path=input("| Wordlist(path): ").strip()
                         )
