@@ -6,6 +6,7 @@
     python3 -m cyberscan.fuzz.fuzz_domain \\
             url="https://example.com" wordlist="path/wordlist.txt"
 """
+import json
 import os
 import requests
 import sys
@@ -28,9 +29,19 @@ def get_wordlist(wordlist_path:str) -> set:
     except Exception as err:
         sys.exit(f"{RED}{err}{RESET}")
 
-def recording_subdomain(subdomain:str, path_file:str) -> None:
+def recording_subdomain(
+        subdomain:str,
+        response:str,
+        headers:str,
+        path_file:str
+        ) -> None:
+    divide_line = "-"*10
     with open(path_file, "a+") as file:
-        file.write(f"{subdomain}\n")
+        file.write(
+                f"{subdomain} {response}\n"
+                f"{headers.strip()}\n"
+                f"{divide_line}\n\n"
+                )
 
 def check_subdomain(subdomain:str) -> list[bool, str]:
     status_subdomain = True 
@@ -38,7 +49,7 @@ def check_subdomain(subdomain:str) -> list[bool, str]:
         headers = Headers().create_headers()
         response = requests.get(subdomain, headers=headers)
         status_code = response.status_code
-        return status_subdomain, status_code
+        return status_subdomain, status_code, response.headers
     except requests.exceptions.ConnectionError:
         status_subdomain = False
         return status_subdomain, "Connection error"
@@ -65,12 +76,20 @@ def fuzz_subdomains(url:str, wordlist_path:str) -> None:
         protocol, domain = url.split("://")
         full_domain = f"{protocol}://{word}.{domain}"
         result = check_subdomain(subdomain=full_domain)
-        output_text = f"| [{count}/{len(wordlist)}] {full_domain} {result}"
+        output_text = f"| [{count}/{len(wordlist)}] {full_domain}"
         if result[0]:
-            recording_subdomain(subdomain=full_domain, path_file=path_file)
-            output_text = f"{GREEN}{output_text}{RESET}"
+            server_headers = ""
+            for key, value in result[-1].items():
+                server_headers+=f"{key}: {value}\n"
+            recording_subdomain(
+                    subdomain=full_domain,
+                    response=result[1],
+                    headers=server_headers,
+                    path_file=path_file
+                    )
+            output_text = f"{GREEN}{output_text}{RESET} {result[:-1]}"
         else:
-            output_text = f"{RED}{output_text}{RESET}"
+            output_text = f"{RED}{output_text} {result}{RESET}"
         print(output_text)
 
 if __name__ == "__main__":
