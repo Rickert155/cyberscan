@@ -13,7 +13,8 @@ import sys
 from cyberscan.core.header import Headers
 from cyberscan.core.helper import CyberHelp
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import greeting, CoreSetting, divide_line
+from cyberscan.core.core import greeting, CoreSetting, divide_line 
+
 
 def get_wordlist(wordlist_path:str) -> set:
     """Получаем список wordlist"""
@@ -67,7 +68,7 @@ def fuzz_subdomains(url:str, wordlist_path:str) -> None:
     if url[-1] == "/":url = url[:-1]
 
     wordlist = get_wordlist(wordlist_path=wordlist_path)
-    path_file = url.split("://")[1]+".txt"
+    path_file = url.split("://")[1]+"_fuzz_subdomains.txt"
     if os.path.exists(path_file):os.remove(path_file)
 
     print(f"| Длина списка: {len(wordlist)}")
