@@ -32,6 +32,27 @@ def get_wordlist(wordlist_path:str):
     except Exception as err:
         sys.exit(f"{RED}{err}{RESET}")
 
+def recording_result(
+        url:str, 
+        status_code:str, 
+        server_headers:str,
+        path_file:str,
+        word:str,
+        text:str=None
+        ):
+    divide_line = "="*20
+    server_headers = server_headers.strip()
+    recording_text = f"{url} {status_code}\n\n{server_headers}\n\n"
+
+    with open(path_file, "a+") as file:
+        if text != None and word in WARNING_WORDS and status_code == 200:
+            recording_text+=f"{text}\n{divide_line}\n\n"
+            file.write(recording_text)
+        else:
+            recording_text+=f"{divide_line}\n\n"
+            file.write(recording_text)
+
+
 def check_url(url:str) -> list[bool, dict|str]:
     status_url = False
     try:
@@ -40,12 +61,13 @@ def check_url(url:str) -> list[bool, dict|str]:
         
         status_code = response.status_code
         server_headers = response.headers
-        
+        page_text = response.text
         if status_code != 404:status_url = True
         data = {
                 "status_url":status_url,
                 "server":server_headers, 
-                "status_code":status_code
+                "status_code":status_code,
+                "text":page_text
                 }
         return status_url, data
     except requests.exceptions.ConnectionError:
@@ -69,9 +91,22 @@ def fuzz_dirs(url:str, wordlist_path:str):
         full_url = f"{url}/{word}"
         result, data = check_url(url=full_url)
         output_text = f"| [{count}/{len(wordlist)}] {full_url}"
+
+        server_info = ""
+        for key, value in data["server"].items():
+            server_info+=f"{key}: {value}\n"
         
         if result:
             output_text = f"{GREEN}{output_text} {data['status_code']}{RESET}"
+            recording_result(
+                url=full_url,
+                server_headers=server_info,
+                path_file=path_file,
+                word=word,
+                status_code=data["status_code"],
+                text=data["text"],
+                )
+
         else:
             output_text = f"{RED}{output_text} {result} {data['status_code']}{RESET}"
 
