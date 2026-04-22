@@ -92,12 +92,17 @@ def fuzz_dirs(url:str, wordlist_path:str):
         result, data = check_url(url=full_url)
         output_text = f"| [{count}/{len(wordlist)}] {full_url}"
 
-        server_info = ""
-        for key, value in data["server"].items():
-            server_info+=f"{key}: {value}\n"
         
         if result:
-            output_text = f"{GREEN}{output_text} {data['status_code']}{RESET}"
+            server_info = ""
+            
+            for key, value in data["server"].items():
+                server_info+=f"{key}: {value}\n"
+            
+            output_text = (
+                    f"{GREEN}{output_text} [{result} "
+                    f"{data['status_code']}]{RESET}"
+                    )
             recording_result(
                 url=full_url,
                 server_headers=server_info,
@@ -108,7 +113,11 @@ def fuzz_dirs(url:str, wordlist_path:str):
                 )
 
         else:
-            output_text = f"{RED}{output_text} {result} {data['status_code']}{RESET}"
+            if type(data) == dict:
+                result_text = f"[{result} {data["status_code"]}]" 
+            else:
+                result_text = f"[{result} {data}]"
+            output_text = f"{RED}{output_text} {result_text}{RESET}"
 
         print(output_text)
     

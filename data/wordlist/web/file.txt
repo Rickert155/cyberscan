@@ -20,6 +20,8 @@ sitemap.xml
 .config
 .history
 .baskup.zip
+.backup.zip
+backup.zip
 .ssh
 scripts.txt
 script.txt
