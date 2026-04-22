@@ -59,7 +59,7 @@ def main():
                 """Search subdomains"""
                 fuzz_subdomains(
                         url=input("| URL: ").strip(),
-                        wordlist=input("| Wordlist(path): ").strip()
+                        wordlist_path=input("| Wordlist(path): ").strip()
                         )
             
             elif "username" in item or item == "3":
