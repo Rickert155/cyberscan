@@ -14,6 +14,16 @@ python3 -m venv venv && source venv/bin/activate && pip install -r packages.txt
 python3 -m cyberscan
 ```
 
+## Возможности
+- Проверка поддоменов  
+
+**Social**
+- Проверка по username на различных сервисах
+
+**CMS**
+- Сканирование плагинов WordPress
+- Проверка версии WordPress
+
 ## Тестирование/отладка
 Подготовлен модуль header для генерирования новых HTTP заголовков. Тестирование:
 ```sh
