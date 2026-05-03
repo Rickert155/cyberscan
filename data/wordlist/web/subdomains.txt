@@ -19,3 +19,5 @@ app
 git
 support
 blog
+api
+uat-testing

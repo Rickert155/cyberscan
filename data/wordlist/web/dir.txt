@@ -22,3 +22,10 @@ script.txt
 scripts
 script
 wp-json
+ftp
+api
+api-docs
+api/users
+api/user
+api/message/
+api/messages/
