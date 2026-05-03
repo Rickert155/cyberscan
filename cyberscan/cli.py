@@ -93,6 +93,12 @@ def main():
             wordlist = params[2]
             fuzz_subdomains(url=url, wordlist_path=wordlist)
 
+        elif len(params) == 3 and "fuzz_dirs" in params[0] \
+                and ("http://" in params[1] or "https://" in params[1]):
+            url = params[1]
+            wordlist = params[2]
+            fuzz_dirs(url=url, wordlist_path=wordlist)
+
         elif len(params) == 2 and "wp-plugins" in params[0] \
                 and ("https://" in params[1] or "http://" in params[1]):
             """Работа с параметрами"""

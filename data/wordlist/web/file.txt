@@ -28,3 +28,4 @@ script.txt
 lib
 .env
 wp-json
+phpinfo.php
