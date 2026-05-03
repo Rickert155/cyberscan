@@ -4,6 +4,9 @@
 Пример использования:
     python3 -m cyberscan --url=http://example.com
     python3 -m cyberscan.fuzz.get_links --url=http://example.com
+
+Примечание:
+    необходимо определить протокол [http/https]
 """
 import os
 import requests
@@ -39,6 +42,8 @@ def extract_links(response:str, url:str) -> list[str] | None:
         return list_links
 
 def get_links(url:str) -> None:
+    if "http://" not in url and "https://" not in url:
+        sys.exit(f"{RED}{__doc__}{RESET}")
     if url[-1] == "/":url = url[:-1]
     try:
         headers = Headers().create_headers()
