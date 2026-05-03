@@ -84,3 +84,14 @@ python3 -m cyberscan fuzz_subdomains https://example.com data/wordlist/web/subdo
 ```sh
 python3 -m cyberscan.fuzz.fuzz_subdomain --url="https://example.com" --wordlist=data/wordlist/web/subdomains.txt
 ```
+
+## Сборщик ссылок
+> Больше вспомогательный модуль. Вероятно, в дальнейшем будет использоваться более серьезным модулем. На момент написания модуля была одна цель: написать сборщик ссылок для прохождения CTF на платформах.
+Пример использования аргументов CLI:
+```sh
+python3 -m cyberscan get_links http://example.com
+```
+Пример использования, как модуля:
+```sh
+python3 -m cyberscan.fuzz.get_links --url=http://example.com
+```
