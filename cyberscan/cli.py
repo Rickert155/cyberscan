@@ -40,7 +40,7 @@ def show_menu() -> str:
     |   {GREEN}[3] {BOLD}Поиск ссылок на странице: get_links{RESET}
     |
     |   {BLUE}Social{RESET}
-    |   {GREEN}[4] {BOLD}Поиск по username: username{RESET}
+    |   {GREEN}[4] {BOLD}Поиск по username: username(в процессе разработки){RESET}
     |
     |   {BLUE}CMS{RESET}
     |   {GREEN}[5] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
