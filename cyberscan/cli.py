@@ -96,7 +96,7 @@ def main():
             data = {}
             for user_commands in params[1:]:
                 try:
-                    key, value = user_commands.split("=")
+                    key, value = user_commands.split("=", 1)
                     data[key] = value
                 except ValueError:
                     sys.exit(
