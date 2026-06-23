@@ -29,6 +29,7 @@ from cyberscan.social.cyberwarnuser import cyberwarnuser
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
 from cyberscan.fuzz.get_links import get_links
+from cyberscan.fuzz.get_comments import get_comments
 
 def show_menu() -> str:
     text = f"""\
@@ -38,13 +39,14 @@ def show_menu() -> str:
     |   {GREEN}[1] {BOLD}Поиск поддоменов: fuzz_subdomain{RESET}
     |   {GREEN}[2] {BOLD}Поиск файлов/директорий: fuzz_dirs{RESET}
     |   {GREEN}[3] {BOLD}Поиск ссылок на странице: get_links{RESET}
+    |   {GREEN}[4] {BOLD}Поиск комментариев HTML: get_comments{RESET}
     |
     |   {BLUE}Social{RESET}
-    |   {GREEN}[4] {BOLD}Поиск по username: username(в процессе разработки){RESET}
+    |   {GREEN}[5] {BOLD}Поиск по username: username(в процессе разработки){RESET}
     |
     |   {BLUE}CMS{RESET}
-    |   {GREEN}[5] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
-    |   {GREEN}[6] {BOLD}Определить версию WordPress: wp-version{RESET}
+    |   {GREEN}[6] {BOLD}Сканер плагинов WordPress: wp-plugins{RESET}
+    |   {GREEN}[7] {BOLD}Определить версию WordPress: wp-version{RESET}
     """
     text = textwrap.dedent(text)
     return text
@@ -74,6 +76,10 @@ def main():
             elif "get_links" in item or item == "3":
                 """Get all links by page"""
                 get_links(url=input("| URL: ").strip())
+
+            elif "get_comments" in item or item == "4":
+                """Get all comments"""
+                get_comments(url=input("| URL: ").strip())
             
             elif "username" in item or item == "4":
                 """Search by username"""
@@ -113,7 +119,10 @@ def main():
                 and ("http://" in params[1] or "https://" in params[1]):
             url = params[1]
             get_links(url=url)
-
+        elif len(params) == 2 and "get_comments" in params[0] \
+                and ("http://" in params[1] or "https://" in params[1]):
+            url = params[1]
+            get_comments(url=url)
         else:
             sys.exit(CyberHelp().help_main_menu(doc=__doc__))
     except KeyboardInterrupt:
