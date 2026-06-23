@@ -34,10 +34,13 @@ def full_url_plugin(url:str, plugin:str) -> str:
     full_url = f"{url}/wp-content/plugins/{plugin}/readme.txt"
     return full_url
 
-def full_list_plugins() -> list[str]:
+def full_list_plugins(mode_test:bool=False) -> list[str]:
     "Возвращает полный список доступных для проверки плагинов"
     list_plugins = []
-    plugins_file = CoreSetting().get_settings()["path_default_wp_plugin"]
+    if not mode_test:
+        plugins_file = CoreSetting().get_settings()["path_default_wp_plugin"]
+    else:
+        plugins_file = CoreSetting().get_settings()["path_default__test_wp_plugin"]
     with open(plugins_file, "r") as file:
         for line in file.readlines():
             list_plugins.append(line.strip())
@@ -63,10 +66,10 @@ def parser_txt(response:str) -> dict[str]:
 
     return data
 
-def scan_list_plugin(url:str) -> None:
+def scan_list_plugin(url:str, mode_test:bool=False) -> None:
     result_file_json = f'{url.split("//")[1].split("/")[0]}.json'
     headers = Headers()
-    list_plugins = full_list_plugins()
+    list_plugins = full_list_plugins(mode_test=mode_test)
     number_valid_plugin = 0
     count_plugin = 0
     
@@ -75,7 +78,6 @@ def scan_list_plugin(url:str) -> None:
     for plugin in list_plugins:
         count_plugin+=1
         full_url = full_url_plugin(url=url, plugin=plugin)
-        #print(full_url)
         try:
             header = headers.create_headers()
             response = requests.get(full_url, headers=header)
@@ -102,13 +104,14 @@ def scan_list_plugin(url:str) -> None:
 def scanWordPressPlugins(args:dict[str]):
     url = args["--url"]
     template = args["template"]
+    mode_test = args.get("mode_test")
     if not url.startswith("https://") and not url.startswith("http://"):
         sys.exit(f"| {RED}Пример использования: {template}{RESET}")
 
     wp_status = check_wordpress(url=url)
     
     if wp_status[0] == True:
-        scan_list_plugin(url=url)
+        scan_list_plugin(url=url, mode_test=mode_test)
 
     elif wp_status[0] != True and wp_status[1] >= 500:
         print(

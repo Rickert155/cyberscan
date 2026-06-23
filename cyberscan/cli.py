@@ -19,6 +19,8 @@ COMMANDS = {
             "name":"Сканер поддоменов",
             "module":fuzz_subdomains,
             "args":["--url=", "--wordlist="],
+            "example_url":"http://example.com",
+            "example_wordlist":"data/wordlist/web/subdomains.txt",
             "template":(
                 "python3 -m cyberscan fuzz_subdomains "
                 "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt"
@@ -28,6 +30,8 @@ COMMANDS = {
             "name":"Сканер директорий",
             "module":fuzz_dirs,
             "args":["--url=", "--wordlist="],
+            "example_url":"http://example.com",
+            "example_wordlist":"data/wordlist/web/dir.txt",
             "template":(
                 "python3 -m cyberscan fuzz_dirs "
                 "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt"
@@ -37,24 +41,28 @@ COMMANDS = {
             "name":"Сборщик ссылок",
             "module":get_links,
             "args":["--url="],
+            "example_url":"http://example.com",
             "template":"python3 -m cyberscan get_links --url=https://example.com"
             },
         "get_comments":{
             "name":"Сборщик комментариев",
             "module":get_comments,
             "args":["--url="],
+            "example_url":"http://example.com",
             "template":"python3 -m cyberscan get_comments --url=https://example.com"
             },
         "wp-plugins":{
             "name":"Сканер плагинов WordPress",
             "module":scanWordPressPlugins,
             "args":["--url="],
+            "example_url":"http://example.com",
             "template":"python3 -m cyberscan wp-plugins --url=https://example.com"
             },
         "wp-version":{
             "name":"Сканер версии WordPress",
             "module":scanWordPressVersion,
             "args":["--url="],
+            "example_url":"http://example.com",
             "template":"python3 -m cyberscan wp-version --url=https://example.com"
             }
         }
@@ -77,6 +85,7 @@ def show_menu(helper:bool=False) -> str:
 
 def main():
     print(f"{greeting()}\n|{divide_line()}")
+    init()
     params = sys.argv[1:]
     if len(params) == 0:
         print(show_menu())

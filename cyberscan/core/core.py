@@ -26,7 +26,8 @@ class CoreSetting:
             data = {
                     "path_default_useragent_txt":"data/useragent.txt",
                     "path_default_useragent_json":"data/agent.json",
-                    "path_default_wp_plugin":"data/wp_plagins.txt",
+                    "path_default_wp_plugin":"data/wp_plugins.txt",
+                    "path_default__test_wp_plugin":"data/test_wp_plugins.txt",
                     "path_default_social_service":"data/social_service.txt"
                     }
             with open(self.settings_path, "w") as file:
@@ -65,7 +66,7 @@ class CoreSetting:
             if "path" in key:
                 if os.path.exists(value):
                     found_config.append(value)
-                    print(f"| {GREEN}[OK] config: {value}{RESET}")
+                    #print(f"| {GREEN}[OK] config: {value}{RESET}")
                 else:
                     not_found_config.append(value)
                     print(f"| {RED}[WARNING] config not found: {value}{RESET}")
@@ -88,7 +89,6 @@ def greeting() -> str:
     return greet_text
 
 def init():
-    print(greeting())
     settings = CoreSetting()
     settings.get_settings(show_settings=False)
     settings.check_path_config()
