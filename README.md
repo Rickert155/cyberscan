@@ -31,7 +31,7 @@ python3 -m cyberscan
 ```sh
 python3 -m tests.headers
 ```
-Для работы из другого модуля можно необходимо импорторовать класс Headers из модуля header и вызвать метод create_headers 
+Для работы из другого модуля необходимо импорторовать класс Headers из модуля header и вызвать метод create_headers 
 ```python3
 from cyberwarn.core.header import Headers
 
@@ -47,14 +47,24 @@ python3 -m cyberscan
 ```
 Результат будет примерно такой:
 ```sh
-|--------------------------------------------------------
+|-----------------------------------------------------------------------------------
 | author:       CyberWarn	https://gitea.com/cyberwarn
 | project:      CyberScan	GPLv3      
-| version:      0.1     
-|--------------------------------------------------------
+| version:      0.1.2     
+|-----------------------------------------------------------------------------------
 |   CyberScan
-|   [1] Сканер плагинов WordPress
-|   [2] Определить CMS
+|
+|   [1] Поиск поддоменов: fuzz_subdomain
+|   [2] Поиск файлов/директорий: fuzz_dirs
+|   [3] Поиск ссылок на странице: get_links
+|   [4] Поиск комментариев HTML: get_comments
+|
+|   Social
+|   [5] Поиск по username: username(в процессе разработки)
+|
+|   CMS
+|   [6] Сканер плагинов WordPress: wp-plugins
+|   [7] Определить версию WordPress: wp-version
 | >>> 
 ```
 
@@ -95,4 +105,14 @@ python3 -m cyberscan get_links http://example.com
 Пример использования, как модуля:
 ```sh
 python3 -m cyberscan.fuzz.get_links --url=http://example.com
+```
+## Сборщик комментариев
+> Так же вспомогательный модель, как get_links
+Пример использования аргументов CLI:
+```sh
+python3 -m cyberscan get_comments https://example.com
+```
+Пример использования, как модуля:
+```sh
+python3 -m cyberscan.fuzz.get_comments --url=https://example.com
 ```
