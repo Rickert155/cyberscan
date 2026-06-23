@@ -18,6 +18,7 @@ python3 -m cyberscan
 - Проверка поддоменов  
 - Перебор директий файлов
 - Сбор ссылок с ресурса
+- Сбор комментариев HTML с ресурса
 
 **Social**
 - Проверка по username на различных сервисах(в процессе разработки)
@@ -34,10 +35,17 @@ python3 -m tests.headers
 Для работы из другого модуля необходимо импорторовать класс Headers из модуля header и вызвать метод create_headers 
 ```python3
 from cyberwarn.core.header import Headers
-
 # Можно использовать параметр create_new_agent со значением True
 # для обновления заголовков в json
 headers = Headers().create_headers(create_new_agent=False) 
+```
+Для теста всех модулей можно использовать tests.check_all_modules:
+```sh
+python3 -m tests.check_all_modules
+```
+Так же можно добавить произвольный URL для тестирования:
+```sh
+python3 -m tests.check_all_modules https://example.com
 ```
 
 ## Использование модулей
@@ -71,49 +79,30 @@ python3 -m cyberscan
 ## Сканер плагинов WordPress
 Можно использовать аргументы командной строки:
 ```sh
-python3 -m cyberscan wp-plugins https://127.0.0.1:3000
-```
-Можно использовать как модуль:
-```sh
-python3 -m cyberscan.cms.wp_plugins --url=https://127.0.0.1:3000
+python3 -m cyberscan wp-plugins --url=https://127.0.0.1:3000
 ```
 ## Сканер версии WordPress
 ```sh
-python3 -m cyberscan wp-version http://127.0.0.1:3000
-```
-```sh
-python3 -m cyberscan.cms.wp_version url=http://127.0.0.1:3000
+python3 -m cyberscan wp-version --url=http://127.0.0.1:3000
 ```
 
 ## Сканер поддоменов
 > Для сканирования поддоменов необходимо указать URL и путь к wordlist для перебора(в инструмент добавлены тестовые вордлисты data/wordlist)
 Использование аргументов командной строки
 ```sh
-python3 -m cyberscan fuzz_subdomains https://example.com data/wordlist/web/subdomains.txt
-```
-Использование, как модуля:
-```sh
-python3 -m cyberscan.fuzz.fuzz_subdomain --url="https://example.com" --wordlist=data/wordlist/web/subdomains.txt
+python3 -m cyberscan fuzz_subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt
 ```
 
 ## Сборщик ссылок
 > Больше вспомогательный модуль. Вероятно, в дальнейшем будет использоваться более серьезным модулем. На момент написания модуля была одна цель: написать сборщик ссылок для прохождения CTF на платформах.
 Пример использования аргументов CLI:
 ```sh
-python3 -m cyberscan get_links http://example.com
-```
-Пример использования, как модуля:
-```sh
-python3 -m cyberscan.fuzz.get_links --url=http://example.com
+python3 -m cyberscan get_links --url=http://example.com
 ```
 ## Сборщик комментариев
 > Так же вспомогательный модель, как get_links  
 
 Пример использования аргументов CLI:
 ```sh
-python3 -m cyberscan get_comments https://example.com
-```
-Пример использования, как модуля:
-```sh
-python3 -m cyberscan.fuzz.get_comments --url=https://example.com
+python3 -m cyberscan get_comments --url=https://example.com
 ```
