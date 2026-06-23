@@ -103,7 +103,8 @@ def scan_list_plugin(url:str) -> None:
         json.dump(all_plugins, file, indent=4)
 
 
-def scanWordPressPlugins(url:str):
+def scanWordPressPlugins(args:dict[str]):
+    url = args["--url"]
     wp_status = check_wordpress(url=url)
     
     if wp_status[0] == True:

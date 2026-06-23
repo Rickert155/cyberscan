@@ -47,10 +47,10 @@ def parser_version(url:str) -> str:
     except Exception as error:
         return f"Error: {error}"
 
-def scanWordPressVersion(url:str) -> None:
+def scanWordPressVersion(args:dict[str]) -> None:
+    url = args["--url"]
     version = parser_version(url=url)
     print(
-            f"|{divide_line()}\n"
             f"| {GREEN}WordPress version:\t{BOLD}{version}{RESET}"
             )
 

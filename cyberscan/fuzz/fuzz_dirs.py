@@ -75,7 +75,9 @@ def check_url(url:str) -> list[bool, dict|str]:
     except Exception as err:
         return status_url, err
 
-def fuzz_dirs(url:str, wordlist_path:str):
+def fuzz_dirs(args:dict[str]):
+    url = args["--url"]
+    wordlist_path = args["--wordlist"]
     if not os.path.exists(wordlist_path):
         sys.exit(f"{BOLD}{RED}wordlist not found: {wordlist_path}{RESET}")
     if "://" not in url:

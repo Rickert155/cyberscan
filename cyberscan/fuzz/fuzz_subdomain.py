@@ -59,7 +59,9 @@ def check_subdomain(subdomain:str) -> list[bool, str]:
         return status_subdomain, err
 
 
-def fuzz_subdomains(url:str, wordlist_path:str) -> None:
+def fuzz_subdomains(args:dict[str]) -> None:
+    url = args["--url"]
+    wordlist_path = args["--wordlist"]
     """Основной компонент"""
     if not os.path.exists(wordlist_path):
         sys.exit(f"{BOLD}{RED}wordlist not found: {wordlist_path}{RESET}")

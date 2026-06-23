@@ -38,10 +38,11 @@ def extract_links(response:str, url:str) -> list[str] | None:
                         list_links.append(link)
         return list_links
     except Exception as err:
-        print(f"{RED}ERROR Extraction: {err}{RESET}")
+        print(f"| {RED}ERROR Extraction: {err}{RESET}")
         return list_links
 
-def get_links(url:str) -> None:
+def get_links(args:dict[str]) -> None:
+    url = args["--url"]
     if "http://" not in url and "https://" not in url:
         sys.exit(f"{RED}{__doc__}{RESET}")
     if url[-1] == "/":url = url[:-1]

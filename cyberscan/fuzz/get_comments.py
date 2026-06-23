@@ -24,7 +24,8 @@ def recording_comments(url:str, comments:list=None):
         text_comment.strip()
         file.write(text_comment)
 
-def get_comments(url:str):
+def get_comments(args:dict[str]):
+    url = args["--url"]
     if "http://" not in url and "https://" not in url:
         sys.exit(f"{RED}{__doc__}{RESET}")
     if url[-1] == "/":url = url[:-1]
