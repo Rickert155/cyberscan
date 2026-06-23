@@ -84,6 +84,7 @@ def fuzz_dirs(url:str, wordlist_path:str):
 
     wordlist = get_wordlist(wordlist_path=wordlist_path)
     path_file = url.split("://")[1]+"_fuzz_url.txt"
+    if "/" in path_file:path_file = path_file.split("/")[0]
     if os.path.exists(path_file):os.remove(path_file)
     
 
