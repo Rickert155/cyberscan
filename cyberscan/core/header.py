@@ -12,8 +12,8 @@ import json
 import os
 import sys
 import random
-from .colors import RED, RESET, GREEN
-from .core import CoreSetting, init
+from cyberscan.core.colors import RED, RESET, GREEN
+from cyberscan.core.core import CoreSetting, init
 
 class Headers:
     def __init__(self):
