@@ -1,19 +1,13 @@
 """
 Модуль: Сканнер директорий 
-Пример исопользования:
-    python3 -m cyberscan.fuzz.fuzz_dirs \\ 
-            --url="https://example.com" --wordlist="path/wordlist.txt"
-    python3 -m cyberscan.fuzz.fuzz_dirs \\
-            url="https://example.com" wordlist="path/wordlist.txt"
 """
 import os
 import json
 import requests
 import sys
 from cyberscan.core.header import Headers
-from cyberscan.core.helper import CyberHelp
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import greeting, CoreSetting, divide_line
+from cyberscan.core.core import CoreSetting, divide_line
 
 WARNING_WORDS = [
         "robots.txt", 
@@ -78,10 +72,14 @@ def check_url(url:str) -> list[bool, dict|str]:
 def fuzz_dirs(args:dict[str]):
     url = args["--url"]
     wordlist_path = args["--wordlist"]
+    template = args["template"]
+    
+    if not url.startswith("https://") and not url.startswith("http://"):
+        sys.exit(f"| {RED}Пример использования: {template}{RESET}")
+    
     if not os.path.exists(wordlist_path):
         sys.exit(f"{BOLD}{RED}wordlist not found: {wordlist_path}{RESET}")
-    if "://" not in url:
-        sys.exit(f"{BOLD}{RED}url not found: {url}{RESET}")
+    
     if url[-1] == "/":url = url[:-1]
 
     wordlist = get_wordlist(wordlist_path=wordlist_path)
@@ -123,21 +121,3 @@ def fuzz_dirs(args:dict[str]):
             output_text = f"{RED}{output_text} {result_text}{RESET}"
 
         print(output_text)
-    
-
-
-if __name__ == "__main__":
-    print(greeting())
-    try:
-        params = sys.argv[1:]
-        if len(params) == 2 and ("url=" in params[0] or "--url=" in params[0]) and \
-                ("http://" in params[0] or "https://" in params[0]) and \
-                ("--wordlist=" in params[1] or "wordlist=" in params[1]):
-            wordlist = params[1].split("wordlist=")[1]
-            url = params[0].split("url=")[1]
-            fuzz_dirs(url=url, wordlist_path=wordlist)
-    
-        else:
-            sys.exit(CyberHelp().help_main_menu(doc=__doc__))
-    except KeyboardInterrupt:
-        sys.exit(f"{RED}\nExit...{RESET}")

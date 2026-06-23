@@ -1,17 +1,13 @@
 """
 Модуль: Сканер плагинов WordPress
-Пример использования:
-    python3 -m cyberscan.cms.wp_plugins --url="https://example.com"
-    python3 -m cyberscan.cms.wp_plugins url="https://example.com"
 """
 import json
 import requests
 import os
 import sys
 from cyberscan.core.header import Headers
-from cyberscan.core.helper import CyberHelp
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import greeting, CoreSetting, divide_line
+from cyberscan.core.core import CoreSetting, divide_line
 
 def check_wordpress(url:str) -> bool:
     """Проверяем, на WordPress сайт или нет"""
@@ -105,6 +101,10 @@ def scan_list_plugin(url:str) -> None:
 
 def scanWordPressPlugins(args:dict[str]):
     url = args["--url"]
+    template = args["template"]
+    if not url.startswith("https://") and not url.startswith("http://"):
+        sys.exit(f"| {RED}Пример использования: {template}{RESET}")
+
     wp_status = check_wordpress(url=url)
     
     if wp_status[0] == True:
@@ -120,18 +120,3 @@ def scanWordPressPlugins(args:dict[str]):
                 f"| {YELLOW}{url} Сайт не на WordPress, "
                 f"status: {wp_status[1]}{RESET}"
                 )
-
-if __name__ == "__main__":
-    print(greeting())
-    try:
-        params = sys.argv[1:]
-        if len(params) != 0 and "url=" in params[0] \
-                and ("http://" in params[0] or "https://" in params[0]) \
-                and len(params[0].split("url=")[1]) > 0:
-            url = params[0].split("url=")[1]
-            if url[-1] == "/": url = url[:-1]
-            scanWordPressPlugins(url=url)
-        else:
-            print(CyberHelp().help_wp_plugins(doc=__doc__))
-    except KeyboardInterrupt:
-        sys.exit(f"{RED}\nExit...{RESET}")

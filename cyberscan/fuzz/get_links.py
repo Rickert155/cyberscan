@@ -1,20 +1,11 @@
 """
 Модуль: get links
-
-Пример использования:
-    python3 -m cyberscan --url=http://example.com
-    python3 -m cyberscan.fuzz.get_links --url=http://example.com
-
-Примечание:
-    необходимо определить протокол [http/https]
 """
 import os
 import requests
 import sys
 from cyberscan.core.header import Headers
-from cyberscan.core.helper import CyberHelp
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import greeting
 from bs4 import BeautifulSoup
 
 def recording_urls(file_name:str, urls:[]=None) -> None:
@@ -43,8 +34,10 @@ def extract_links(response:str, url:str) -> list[str] | None:
 
 def get_links(args:dict[str]) -> None:
     url = args["--url"]
-    if "http://" not in url and "https://" not in url:
-        sys.exit(f"{RED}{__doc__}{RESET}")
+    template = args["template"]
+    if not url.startswith("https://") and not url.startswith("http://"):
+        sys.exit(f"| {RED}Пример использования: {template}{RESET}")
+
     if url[-1] == "/":url = url[:-1]
     try:
         headers = Headers().create_headers()
@@ -66,14 +59,3 @@ def get_links(args:dict[str]) -> None:
         sys.exit(f"| {RED}\nExit...{RESET}")
     except requests.exceptions.ConnectionError:
         sys.exit(f"| {RED}{url}: Connection Error{RESET}")
-
-if __name__ == "__main__":
-    print(greeting())
-    params = sys.argv[1:]
-    if len(params) > 0 and \
-            "url=" in params[0] and \
-            ("http://" in params[0] or "https://" in params[0]):
-        url = params[0].split("url=")[1]
-        get_links(url=url)
-    else:
-        sys.exit(CyberHelp().help_main_menu(doc=__doc__))

@@ -1,15 +1,11 @@
 """"
 Модуль: сканер версии WordPress
-Пример использования:
-    python3 -m cyberscan.wp_version "https://example.com"
-    python3 -m cyberscan wp-version url="https://example.com"
 """
 import sys
 import requests
 from cyberscan.core.header import Headers
-from cyberscan.core.helper import CyberHelp
 from cyberscan.core.core import greeting, divide_line
-from cyberscan.core.colors import GREEN, RESET, BOLD 
+from cyberscan.core.colors import GREEN, RESET, BOLD, RED
 from bs4 import BeautifulSoup
 
 
@@ -49,20 +45,11 @@ def parser_version(url:str) -> str:
 
 def scanWordPressVersion(args:dict[str]) -> None:
     url = args["--url"]
+    template = args["template"]
+    if not url.startswith("https://") and not url.startswith("http://"):
+        sys.exit(f"| {RED}Пример использования: {template}{RESET}")
     version = parser_version(url=url)
     print(
             f"| {GREEN}WordPress version:\t{BOLD}{version}{RESET}"
             )
-
-if __name__ == "__main__":
-    print(greeting())
-    params = sys.argv[1:]
-    if len(params) != 0 and "url=" in params[0] \
-            and ("http://" in params[0] or "https://" in params[0]) \
-            and len(params[0].split("url=")[1]) > 0:
-        url = params[0].split("url=")[1]
-        if url[-1] == "/": url = url[:-1]
-        scanWordPressVersion(url=url)
-    else:
-        print(CyberHelp().help_wp_version(doc=__doc__))
 

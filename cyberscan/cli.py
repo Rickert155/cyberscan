@@ -1,21 +1,5 @@
 """
 Модуль: CLI меню
-При запуске инструмента без параметров будет показано меню. В таком случае
-можно выбрать номер модуля или его альтернативное название(указывается 
-после двоеточие). Пример использования для сканирования плагинов WordPress:
-|---------------------------------------------
-|   CyberScan
-|   [1] Сканер плагинов WordPress: wp-plugins
-|   [2] Определить CMS: cms
-| >>> wp-plugins
-
-или
-
-|---------------------------------------------
-|   CyberScan
-|   [1] Сканер плагинов WordPress: wp-plugins
-|   [2] Определить CMS
-| >>> 1
 """
 import textwrap
 import sys
@@ -24,7 +8,6 @@ from __init__ import __project__
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
-from cyberscan.core.helper import CyberHelp
 from cyberscan.social.cyberwarnuser import cyberwarnuser
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
@@ -115,19 +98,23 @@ def main():
                 try:
                     key, value = user_commands.split("=", 1)
                     data[key] = value
+                    data["template"] = COMMANDS[params[0]]["template"]
                 except ValueError:
                     sys.exit(
-                            f"| Необходимо корректно передать аргументы:"
-                            f"{COMMANDS[params[0]]["args"]}"
+                            f"| {RED}Необходимо корректно передать аргументы:{RESET} "
+                            f"{COMMANDS[params[0]]["args"]}\n"
+                            f"| {BLUE}{COMMANDS[params[0]]["template"]}{RESET}"
                             )
                 if key+"=" not in COMMANDS[params[0]]["args"]:
                     sys.exit(
-                            f"| Необходимо передать аргументы: "
-                            f"{COMMANDS[params[0]]["args"]}"
+                            f"| {RED}Необходимо передать аргументы: {RESET}"
+                            f"{COMMANDS[params[0]]["args"]}\n"
+                            f"| {COMMANDS[params[0]]["template"]}"
                             )
             COMMANDS[params[0]]["module"](args=data)
         else:
             sys.exit(
-                    f"| Необходимо передать аргументы: "
-                    f"{COMMANDS[params[0]]["args"]}"
+                    f"| {RED}Необходимо передать аргументы: {RESET}"
+                    f"{COMMANDS[params[0]]["args"]}\n"
+                    f"| {COMMANDS[params[0]]["template"]}"
                     )

@@ -1,19 +1,11 @@
 """
 Модуль: get html comments 
-
-Пример использования:
-    python3 -m cyberscan.fuzz.get_comments --url=http://example.com
-
-Примечание:
-    необходимо определить протокол [http/https]
 """
 import requests
 import sys
 from bs4 import BeautifulSoup
 from cyberscan.core.header import Headers
-from cyberscan.core.helper import CyberHelp
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import greeting
 
 def recording_comments(url:str, comments:list=None):
     file_name = url.split("://")[1].replace("/", "--")+"_comments.txt"
@@ -26,8 +18,10 @@ def recording_comments(url:str, comments:list=None):
 
 def get_comments(args:dict[str]):
     url = args["--url"]
-    if "http://" not in url and "https://" not in url:
-        sys.exit(f"{RED}{__doc__}{RESET}")
+    template = args["template"]
+    if not url.startswith("https://") and not url.startswith("http://"):
+        sys.exit(f"| {RED}Пример использования: {template}{RESET}")
+
     if url[-1] == "/":url = url[:-1]
     try:
         headers = Headers().create_headers()
@@ -55,14 +49,3 @@ def get_comments(args:dict[str]):
             sys.exit(f"| {RED}Status code: {response.status_code} {url}{BOLD}")
     except Exception as err:
         print(f"| {err}")
-
-if __name__ == "__main__":
-    print(greeting())
-    params = sys.argv[1:]
-    if len(params) > 0 and \
-            "url=" in params[0] and \
-            ("http://" in params[0] or "https://" in params[0]):
-        url = params[0].split("url=")[1]
-        get_comments(url=url)
-    else:
-        sys.exit(CyberHelp().help_main_menu(doc=__doc__))
