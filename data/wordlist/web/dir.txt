@@ -29,3 +29,7 @@ api/users
 api/user
 api/message/
 api/messages/
+upload
+uploads
+download
+downloads
