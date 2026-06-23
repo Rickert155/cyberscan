@@ -107,7 +107,8 @@ python3 -m cyberscan get_links http://example.com
 python3 -m cyberscan.fuzz.get_links --url=http://example.com
 ```
 ## Сборщик комментариев
-> Так же вспомогательный модель, как get_links
+> Так же вспомогательный модель, как get_links  
+
 Пример использования аргументов CLI:
 ```sh
 python3 -m cyberscan get_comments https://example.com
