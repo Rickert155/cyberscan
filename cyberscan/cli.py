@@ -35,36 +35,48 @@ COMMANDS = {
         "fuzz_subdomains":{
             "name":"Сканер поддоменов",
             "module":fuzz_subdomains,
-            "args":["--url=", "--wordlist="]
+            "args":["--url=", "--wordlist="],
+            "template":(
+                "python3 -m cyberscan fuzz_subdomains "
+                "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt"
+                )
             },
         "fuzz_dirs":{
             "name":"Сканер директорий",
             "module":fuzz_dirs,
-            "args":["--url=", "--wordlist="]
+            "args":["--url=", "--wordlist="],
+            "template":(
+                "python3 -m cyberscan fuzz_dirs "
+                "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt"
+                )
             },
         "get_links":{
             "name":"Сборщик ссылок",
             "module":get_links,
-            "args":["--url="]
+            "args":["--url="],
+            "template":"python3 -m cyberscan get_links --url=https://example.com"
             },
         "get_comments":{
             "name":"Сборщик комментариев",
             "module":get_comments,
-            "args":["--url="]
+            "args":["--url="],
+            "template":"python3 -m cyberscan get_comments --url=https://example.com"
             },
         "wp-plugins":{
             "name":"Сканер плагинов WordPress",
             "module":scanWordPressPlugins,
-            "args":["--url="]
+            "args":["--url="],
+            "template":"python3 -m cyberscan wp-plugins --url=https://example.com"
             },
         "wp-version":{
             "name":"Сканер версии WordPress",
             "module":scanWordPressVersion,
-            "args":["--url="]
+            "args":["--url="],
+            "template":"python3 -m cyberscan wp-version --url=https://example.com"
             }
         }
 
-def show_menu() -> str:
+def show_menu(helper:bool=False) -> str:
     commands_text = (
             f"| {BOLD}{__project__}{RESET}\n"
             )
@@ -75,6 +87,8 @@ def show_menu() -> str:
                 f"| [{count_command}] {GREEN}{COMMANDS[command]["name"]}:"
                 f" {YELLOW}{command}{RESET}\n"
                 )
+        if helper:
+            commands_text+=f"| {BLUE}{COMMANDS[command]["template"]}{RESET}\n"
     commands_text = commands_text.strip()
     return commands_text 
 
@@ -83,6 +97,9 @@ def main():
     params = sys.argv[1:]
     if len(params) == 0:
         print(show_menu())
+    
+    elif len(params) > 0 and "--help" in params[0]:
+        print(show_menu(helper=True))
 
     elif params[0] not in COMMANDS:
         commands_list = ""
