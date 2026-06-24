@@ -76,33 +76,50 @@ python3 -m cyberscan
 | >>> 
 ```
 
-## Сканер плагинов WordPress
+### Сканер плагинов WordPress
 Можно использовать аргументы командной строки:
 ```sh
 python3 -m cyberscan wp-plugins --url=https://127.0.0.1:3000
 ```
-## Сканер версии WordPress
+### Сканер версии WordPress
 ```sh
 python3 -m cyberscan wp-version --url=http://127.0.0.1:3000
 ```
 
-## Сканер поддоменов
+### Сканер поддоменов
 > Для сканирования поддоменов необходимо указать URL и путь к wordlist для перебора(в инструмент добавлены тестовые вордлисты data/wordlist)
 Использование аргументов командной строки
 ```sh
 python3 -m cyberscan fuzz_subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt
 ```
 
-## Сборщик ссылок
+### Сканер директорий
+```sh
+python3 -m cyberscan fuzz_dirs --url=https://example.com --wordlist=data/wordlist/web/dir.txt
+```
+
+### Сборщик ссылок
 > Больше вспомогательный модуль. Вероятно, в дальнейшем будет использоваться более серьезным модулем. На момент написания модуля была одна цель: написать сборщик ссылок для прохождения CTF на платформах.
 Пример использования аргументов CLI:
 ```sh
 python3 -m cyberscan get_links --url=http://example.com
 ```
-## Сборщик комментариев
+### Сборщик комментариев
 > Так же вспомогательный модель, как get_links  
 
 Пример использования аргументов CLI:
 ```sh
 python3 -m cyberscan get_comments --url=https://example.com
 ```
+
+## Запуск в контейнере
+Для запуска в контенере подготовлен Containerfile.  
+Собираем образ:
+```sh
+podman build -t cyberscan -f Containerfile
+```
+Запускаем контейнер на основе нашего образа, монтируя директорию data:
+```sh
+podman run --rm -it -v $PWD/data:/root/cyberscan/data cyberscan
+```
+> Образ собирается вместе с vim и fish для комфортной работы в контейнере
