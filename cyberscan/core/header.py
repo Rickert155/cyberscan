@@ -42,7 +42,15 @@ class Headers:
         else:
             print(f"{RED}Отсутствует конфиг: {path_default_useragent_txt}{RESET}")
             return False
+    
+    def generate_ip(self):
+        ip = ""
+        for _ in range(4):
+            block = random.randint(0, 255)
+            ip+=f"{block}."
         
+        return ip[:-1]
+
     def create_headers(self, create_new_agent:bool=False) -> dict[str]:
         if create_new_agent:
             self.create_json_agent()
@@ -57,13 +65,16 @@ class Headers:
             for agent in data:
                 agent_list.append(agent)
             random_agent = random.choice(agent_list)
-
+            
+            ip = self.generate_ip()
+            
             headers = {
                     "User-Agent":random_agent,
                     "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                     "Accept-Language":"ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
                     "Accept-Encoding": "gzip, deflate",
-                    "Connection":"keep-alive"
+                    "Connection":"keep-alive",
+                    "X-Forwarded-For":ip
                     }
             return headers
         except FileNotFoundError:
