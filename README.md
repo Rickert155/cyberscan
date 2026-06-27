@@ -76,7 +76,7 @@ python3 -m cyberscan --help
 ### Сканер плагинов WordPress
 Можно использовать аргументы командной строки:
 ```sh
-python3 -m cyberscan wp-plugins --url=https://127.0.0.1:3000
+python3 -m cyberscan wp-plugins --url=https://127.0.0.1:3000 --workers=20
 ```
 ### Сканер версии WordPress
 ```sh
@@ -87,12 +87,12 @@ python3 -m cyberscan wp-version --url=http://127.0.0.1:3000
 > Для сканирования поддоменов необходимо указать URL и путь к wordlist для перебора(в инструмент добавлены тестовые вордлисты data/wordlist)
 Использование аргументов командной строки
 ```sh
-python3 -m cyberscan fuzz_subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt
+python3 -m cyberscan fuzz_subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20
 ```
 
 ### Сканер директорий
 ```sh
-python3 -m cyberscan fuzz_dirs --url=https://example.com --wordlist=data/wordlist/web/dir.txt
+python3 -m cyberscan fuzz_dirs --url=https://example.com --wordlist=data/wordlist/web/dir.txt --workers=20
 ```
 
 ### Сборщик ссылок
