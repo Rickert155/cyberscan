@@ -36,6 +36,7 @@ def tests():
         data["template"] = template
         data["mode_test"] = mode_test
         data["--url"] = url
+        data["--workers"] = 20
         
         if example_wordlist:
             data["--wordlist"] = example_wordlist

@@ -8,7 +8,7 @@ from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 
 def recording_comments(url:str, comments:list=None):
-    file_name = url.split("://")[1].replace("/", "--")+"_comments.txt"
+    file_name = url.split("://")[1].replace("/", "--")+".comments.txt"
     with open(file_name, "w") as file:
         text_comment = ""
         for comment in comments:

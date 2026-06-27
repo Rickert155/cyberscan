@@ -29,12 +29,12 @@ COMMANDS = {
         "fuzz_dirs":{
             "name":"Сканер директорий",
             "module":fuzz_dirs,
-            "args":["--url=", "--wordlist="],
+            "args":["--url=", "--wordlist=", "--workers="],
             "example_url":"http://example.com",
             "example_wordlist":"data/wordlist/web/dir.txt",
             "template":(
                 "python3 -m cyberscan fuzz_dirs "
-                "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt"
+                "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt --workers=20"
                 )
             },
         "get_links":{

@@ -8,6 +8,8 @@ import sys
 from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from cyberscan.core.core import CoreSetting, divide_line
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 
 WARNING_WORDS = [
         "robots.txt", 
@@ -26,52 +28,60 @@ def get_wordlist(wordlist_path:str):
     except Exception as err:
         sys.exit(f"{RED}{err}{RESET}")
 
-def recording_result(
-        url:str, 
-        status_code:str, 
-        server_headers:str,
-        path_file:str,
-        word:str,
-        text:str=None
-        ):
-    divide_line = "="*20
-    server_headers = server_headers.strip()
-    recording_text = f"{url} {status_code}\n\n{server_headers}\n\n"
-
-    with open(path_file, "a+") as file:
-        if text != None and word in WARNING_WORDS and status_code == 200:
-            recording_text+=f"{text}\n{divide_line}\n\n"
-            file.write(recording_text)
-        else:
-            recording_text+=f"{divide_line}\n\n"
-            file.write(recording_text)
-
+COUNT_FIND = 0
+COUNT_DIR = 0
+LEN_LIST_DIR = 0
+count_find_lock = Lock()
+count_dir_lock = Lock()
+update_txt_lock = Lock()
 
 def check_url(url:str) -> list[bool, dict|str]:
-    status_url = False
+    global COUNT_FIND, COUNT_DIR
+    with count_dir_lock:
+        COUNT_DIR+=1
+    if COUNT_DIR % 100 == 0 or COUNT_DIR == LEN_LIST_DIR:
+        print(f"{GREEN}| Progress: [{COUNT_DIR}/{LEN_LIST_DIR}]")
     try:
         headers = Headers().create_headers()
         response = requests.get(url, headers=headers)
         
         status_code = response.status_code
         server_headers = response.headers
-        page_text = response.text
-        if status_code != 404:status_url = True
-        data = {
-                "status_url":status_url,
-                "server":server_headers, 
-                "status_code":status_code,
-                "text":page_text
-                }
-        return status_url, data
+        if status_code != 404:
+            with count_find_lock:
+                COUNT_FIND+=1
+            print(
+                    f"{GREEN}| [{COUNT_FIND}] {url} {status_code}{RESET}"
+                    )
+            
+            text_headers = ""
+            for key, value in server_headers.items():
+                text_headers+=f"{key}: {value}\n"
+            text_headers = text_headers.strip()
+
+            with update_txt_lock:
+                with open(RESULT_FILE, "a") as file:
+                    file.write(
+                            f"{url} {status_code}\n\n"
+                            f"{text_headers}\n"
+                            f"{'-'*50}\n"
+                            )
     except requests.exceptions.ConnectionError:
-        return status_url, "Connection error"
+        pass
     except Exception as err:
-        return status_url, err
+        print(f"{RED}| Error parsing url: {url}{RESET}")
+
+RESULT_FILE = ""
 
 def fuzz_dirs(args:dict[str]):
+    global RESULT_FILE, LEN_LIST_DIR
     url = args["--url"]
     wordlist_path = args["--wordlist"]
+    workers = args["--workers"]
+    try:
+        workers = int(workers)
+    except ValueError:
+        sys.exit(f"| {RED}Значение workers должно быть числовым{RESET}")
     template = args["template"]
     
     if not url.startswith("https://") and not url.startswith("http://"):
@@ -83,41 +93,19 @@ def fuzz_dirs(args:dict[str]):
     if url[-1] == "/":url = url[:-1]
 
     wordlist = get_wordlist(wordlist_path=wordlist_path)
-    path_file = url.split("://")[1]+"_fuzz_url.txt"
-    if "/" in path_file:path_file = path_file.split("/")[0]
-    if os.path.exists(path_file):os.remove(path_file)
+    LEN_LIST_DIR = len(wordlist)
     
-
+    RESULT_FILE = url.split("://")[1]+".fuzz_url.txt"
+    if "/" in RESULT_FILE:RESULT_FILE = RESULT_FILE.split("/")[0]
+    if os.path.exists(RESULT_FILE):os.remove(RESULT_FILE)
+    
+    full_list_url = []
     for count, word in enumerate(wordlist, start=1):
         full_url = f"{url}/{word}"
-        result, data = check_url(url=full_url)
-        output_text = f"| [{count}/{len(wordlist)}] {full_url}"
+        full_list_url.append(full_url)
 
-        
-        if result:
-            server_info = ""
-            
-            for key, value in data["server"].items():
-                server_info+=f"{key}: {value}\n"
-            
-            output_text = (
-                    f"{GREEN}{output_text} [{result} "
-                    f"{data['status_code']}]{RESET}"
-                    )
-            recording_result(
-                url=full_url,
-                server_headers=server_info,
-                path_file=path_file,
-                word=word,
-                status_code=data["status_code"],
-                text=data["text"],
-                )
-
-        else:
-            if type(data) == dict:
-                result_text = f"[{result} {data["status_code"]}]" 
-            else:
-                result_text = f"[{result} {data}]"
-            output_text = f"{RED}{output_text} {result_text}{RESET}"
-
-        print(output_text)
+    with ThreadPoolExecutor(max_workers=workers) as execute:
+        result = list(execute.map(
+            check_url,
+            full_list_url
+            ))

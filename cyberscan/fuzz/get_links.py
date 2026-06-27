@@ -48,7 +48,7 @@ def get_links(args:dict[str]) -> None:
         if response.status_code == 200:
             links = extract_links(response=response.text, url=url)
             if len(links) > 0:
-                file_name = f"{url.split("://")[1]}_links.txt"
+                file_name = f"{url.split("://")[1]}.links.txt"
                 recording_urls(urls=links, file_name=file_name)
                 for count, link in enumerate(links, start=1):
                     print(f"| [{count}] {GREEN}{link}{RESET}")

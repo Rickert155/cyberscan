@@ -26,19 +26,6 @@ def get_wordlist(wordlist_path:str) -> set:
     except Exception as err:
         sys.exit(f"{RED}{err}{RESET}")
 
-def recording_subdomain(
-        subdomain:str,
-        response:str,
-        headers:str,
-        path_file:str
-        ) -> None:
-    divide_line = "-"*10
-    with open(path_file, "a+") as file:
-        file.write(
-                f"{subdomain} {response}\n"
-                f"{headers.strip()}\n"
-                f"{divide_line}\n\n"
-                )
 
 COUNT_SUBDOMAINS = 0
 LEN_LIST_SUBDOMAINS = 0
