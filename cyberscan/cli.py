@@ -18,12 +18,12 @@ COMMANDS = {
         "fuzz_subdomains":{
             "name":"Сканер поддоменов",
             "module":fuzz_subdomains,
-            "args":["--url=", "--wordlist="],
+            "args":["--url=", "--wordlist=", "--workers="],
             "example_url":"http://example.com",
             "example_wordlist":"data/wordlist/web/subdomains.txt",
             "template":(
                 "python3 -m cyberscan fuzz_subdomains "
-                "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt"
+                "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20"
                 )
             },
         "fuzz_dirs":{

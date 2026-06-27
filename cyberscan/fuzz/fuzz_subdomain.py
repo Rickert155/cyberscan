@@ -8,6 +8,8 @@ import sys
 from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from cyberscan.core.core import CoreSetting, divide_line 
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 
 
 def get_wordlist(wordlist_path:str) -> set:
@@ -38,25 +40,63 @@ def recording_subdomain(
                 f"{divide_line}\n\n"
                 )
 
+COUNT_SUBDOMAINS = 0
+LEN_LIST_SUBDOMAINS = 0
+RESULT_FILE = ""
+count_subdomains_lock = Lock()
+update_txt_lock = Lock()
+
 def check_subdomain(subdomain:str) -> list[bool, str]:
-    status_subdomain = True 
+    global COUNT_SUBDOMAINS 
+    with count_subdomains_lock:
+        COUNT_SUBDOMAINS+=1
+
+    if COUNT_SUBDOMAINS % 100 == 0 or COUNT_SUBDOMAINS == LEN_LIST_SUBDOMAINS:
+        print(
+                f"{GREEN}| Progress: "
+                f"[{COUNT_SUBDOMAINS}/{LEN_LIST_SUBDOMAINS}]{RESET}"
+                )
     try:
         headers = Headers().create_headers()
         response = requests.get(subdomain, headers=headers)
         status_code = response.status_code
-        return status_subdomain, status_code, response.headers
+        server_headers = response.headers
+        text_headers = ""
+        for key, value in server_headers.items():
+            text_headers+=f"{key}: {value}\n"
+        text_headers = text_headers.strip()
+        print(
+                f"{GREEN}| {subdomain}: "
+                f"{RESET}{YELLOW}{status_code}{RESET}"
+                )
+        with update_txt_lock:
+            with open(RESULT_FILE, "a") as file:
+                file.write(
+                        f"{subdomain} {status_code}\n\n"
+                        f"{text_headers}\n"
+                        f"{'-'*50}\n"
+                        )
     except requests.exceptions.ConnectionError:
-        status_subdomain = False
-        return status_subdomain, "Connection error"
+        pass
     except Exception as err:
-        status_subdomain = False
-        return status_subdomain, err
+        print(
+                f"{RED}| {subdomain}: {err}{RESET}"
+                )
 
 
 def fuzz_subdomains(args:dict[str]) -> None:
+    global LEN_LIST_SUBDOMAINS, RESULT_FILE
     url = args["--url"]
     wordlist_path = args["--wordlist"]
+    workers = args["--workers"]
+    try:
+        workers = int(workers)
+    except ValueError:
+        sys.exit(f"| {RED}Значение workers должно быть числовым{RESET}")
     template = args["template"]
+    RESULT_FILE = f'{url.split("//")[1].split("/")[0]}.subdomains.txt'
+    if os.path.exists(RESULT_FILE):
+        os.remove(RESULT_FILE)
     if not url.startswith("https://") and not url.startswith("http://"):
         sys.exit(f"| {RED}Пример использования: {template}{RESET}")
     
@@ -69,24 +109,16 @@ def fuzz_subdomains(args:dict[str]) -> None:
     path_file = url.split("://")[1]+"_fuzz_subdomains.txt"
     if os.path.exists(path_file):os.remove(path_file)
 
-    print(f"| Длина списка: {len(wordlist)}")
-
+    list_subdomains = []
     for count, word in enumerate(wordlist, start=1):
         protocol, domain = url.split("://")
         full_domain = f"{protocol}://{word}.{domain}"
-        result = check_subdomain(subdomain=full_domain)
-        output_text = f"| [{count}/{len(wordlist)}] {full_domain}"
-        if result[0]:
-            server_headers = ""
-            for key, value in result[-1].items():
-                server_headers+=f"{key}: {value}\n"
-            recording_subdomain(
-                    subdomain=full_domain,
-                    response=result[1],
-                    headers=server_headers,
-                    path_file=path_file
-                    )
-            output_text = f"{GREEN}{output_text}{RESET} {result[:-1]}"
-        else:
-            output_text = f"{RED}{output_text} {result}{RESET}"
-        print(output_text)
+        list_subdomains.append(full_domain)
+    
+    LEN_LIST_SUBDOMAINS = len(list_subdomains)
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        result = list(executor.map(
+            check_subdomain,
+            list_subdomains
+            ))
