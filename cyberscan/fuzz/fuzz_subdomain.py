@@ -28,13 +28,15 @@ def get_wordlist(wordlist_path:str) -> set:
 
 
 COUNT_SUBDOMAINS = 0
+COUNT_FIND_SUBDOMAINS = 0
 LEN_LIST_SUBDOMAINS = 0
 RESULT_FILE = ""
 count_subdomains_lock = Lock()
+count_find_subdomain_lock = Lock()
 update_txt_lock = Lock()
 
 def check_subdomain(subdomain:str) -> list[bool, str]:
-    global COUNT_SUBDOMAINS 
+    global COUNT_SUBDOMAINS, COUNT_FIND_SUBDOMAINS
     with count_subdomains_lock:
         COUNT_SUBDOMAINS+=1
 
@@ -48,12 +50,16 @@ def check_subdomain(subdomain:str) -> list[bool, str]:
         response = requests.get(subdomain, headers=headers)
         status_code = response.status_code
         server_headers = response.headers
+        
+        with count_find_subdomain_lock:
+            COUNT_FIND_SUBDOMAINS+=1
+        
         text_headers = ""
         for key, value in server_headers.items():
             text_headers+=f"{key}: {value}\n"
         text_headers = text_headers.strip()
         print(
-                f"{GREEN}| {subdomain}: "
+                f"{GREEN}| [{COUNT_FIND_SUBDOMAINS}] {subdomain}: "
                 f"{RESET}{YELLOW}{status_code}{RESET}"
                 )
         with update_txt_lock:
