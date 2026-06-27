@@ -54,9 +54,9 @@ COMMANDS = {
         "wp-plugins":{
             "name":"Сканер плагинов WordPress",
             "module":scanWordPressPlugins,
-            "args":["--url="],
+            "args":["--url=", "--workers="],
             "example_url":"http://example.com",
-            "template":"python3 -m cyberscan wp-plugins --url=https://example.com"
+            "template":"python3 -m cyberscan wp-plugins --url=https://example.com, --workers=10"
             },
         "wp-version":{
             "name":"Сканер версии WordPress",
