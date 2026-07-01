@@ -121,7 +121,7 @@ podman run --rm -it -v $PWD/data:/root/cyberscan/data cyberscan
 ```
 > Образ собирается вместе с vim и fish для комфортной работы в контейнере
 
-## Готовый образы Podman/Docker
+## Готовый образ Podman/Docker
 Подтягиваем себе образ
 ```sh
 podman pull ghcr.io/rickert155/cyberscan:0.2.2
