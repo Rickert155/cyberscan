@@ -66,15 +66,12 @@ class Headers:
                 agent_list.append(agent)
             random_agent = random.choice(agent_list)
             
-            ip = self.generate_ip()
-            
             headers = {
                     "User-Agent":random_agent,
                     "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                     "Accept-Language":"ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
                     "Accept-Encoding": "gzip, deflate",
-                    "Connection":"keep-alive",
-                    "X-Forwarded-For":ip
+                    "Connection":"keep-alive"
                     }
             return headers
         except FileNotFoundError:
