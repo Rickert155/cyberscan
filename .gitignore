@@ -4,4 +4,5 @@
 data/test_*
 *.json
 *.txt
+**/*.log
 !data/wordlist/*

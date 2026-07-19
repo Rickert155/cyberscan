@@ -2,7 +2,9 @@ import textwrap
 import os
 import json
 import shutil
+import time
 from cyberscan.core.colors import RED, RESET, BOLD, GREEN
+from cyberscan.core.config import LOG_FILE
 from __init__ import (
         __author__, 
         __version__, 
@@ -77,6 +79,25 @@ def divide_line() -> str:
     len_line = int(shutil.get_terminal_size().columns)-1
     line = "-"*len_line
     return line
+
+def current_time() -> str:
+    return time.strftime("%d/%m/%Y %H:%M:%S")
+
+
+def log_server_response(status:int, headers:str, url:str):
+    line = "-"*60
+    
+    headers_text = ""
+    for key, value in headers.items():
+        headers_text+=f"{key}: {value}\n"
+
+    text = (
+            f"{line}\n"
+            f"[{current_time()}] {url} {status}\n"
+            f"{headers_text}\n"
+            )
+    with open(LOG_FILE, "a+") as file:
+        file.write(text)
 
 def greeting() -> str:
     greet_text = f"""\

@@ -8,6 +8,7 @@ from __init__ import __project__
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
+from cyberscan.cracker.bruteforce_login import bruteforce_login
 from cyberscan.social.cyberwarnuser import cyberwarnuser
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
@@ -64,7 +65,13 @@ COMMANDS = {
             "args":["--url="],
             "example_url":"http://example.com",
             "template":"python3 -m cyberscan wp-version --url=https://example.com"
-            }
+            },
+        "bruteforce_login":{
+                "name":"Cracking user passwords",
+                "module":bruteforce_login,
+                "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
+                "template":"python3 -m cyberscan cracking_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
+                }
         }
 
 def show_menu(helper:bool=False) -> str:
