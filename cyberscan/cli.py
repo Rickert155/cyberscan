@@ -22,6 +22,7 @@ COMMANDS = {
             "args":["--url=", "--wordlist=", "--workers="],
             "example_url":"http://example.com",
             "example_wordlist":"data/wordlist/web/subdomains.txt",
+            "mode_test":True,
             "template":(
                 "python3 -m cyberscan fuzz_subdomains "
                 "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20"
@@ -33,6 +34,7 @@ COMMANDS = {
             "args":["--url=", "--wordlist=", "--workers="],
             "example_url":"http://example.com",
             "example_wordlist":"data/wordlist/web/dir.txt",
+            "mode_test":True,
             "template":(
                 "python3 -m cyberscan fuzz_dirs "
                 "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt --workers=20"
@@ -43,6 +45,7 @@ COMMANDS = {
             "module":get_links,
             "args":["--url="],
             "example_url":"http://example.com",
+            "mode_test":True,
             "template":"python3 -m cyberscan get_links --url=https://example.com"
             },
         "get_comments":{
@@ -50,6 +53,7 @@ COMMANDS = {
             "module":get_comments,
             "args":["--url="],
             "example_url":"http://example.com",
+            "mode_test":True,
             "template":"python3 -m cyberscan get_comments --url=https://example.com"
             },
         "wp-plugins":{
@@ -57,6 +61,7 @@ COMMANDS = {
             "module":scanWordPressPlugins,
             "args":["--url=", "--workers="],
             "example_url":"http://example.com",
+            "mode_test":True,
             "template":"python3 -m cyberscan wp-plugins --url=https://example.com, --workers=10"
             },
         "wp-version":{
@@ -64,12 +69,14 @@ COMMANDS = {
             "module":scanWordPressVersion,
             "args":["--url="],
             "example_url":"http://example.com",
+            "mode_test":True,
             "template":"python3 -m cyberscan wp-version --url=https://example.com"
             },
         "bruteforce_login":{
                 "name":"Cracking user passwords",
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
+                "example_url":"https://example.com",
                 "template":"python3 -m cyberscan cracking_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
                 }
         }

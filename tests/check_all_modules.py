@@ -23,7 +23,10 @@ def tests():
         module = COMMANDS[command]["module"]
         args = COMMANDS[command]["args"]
         template = COMMANDS[command]["template"]
-        mode_test = True
+        mode_test = COMMANDS[command].get("mode_test")
+
+        if not mode_test:
+            break
         
         if user_url:
             url = user_url
