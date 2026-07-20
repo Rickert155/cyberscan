@@ -26,7 +26,7 @@ def tests():
         mode_test = COMMANDS[command].get("mode_test")
 
         if not mode_test:
-            break
+            continue 
         
         if user_url:
             url = user_url
