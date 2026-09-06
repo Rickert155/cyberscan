@@ -9998,3 +9998,5 @@ Basket
 7f
 05-17
 4e
+wordpress
+wordpress/index.php
