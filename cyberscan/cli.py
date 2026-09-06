@@ -77,7 +77,7 @@ COMMANDS = {
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
-                "template":"python3 -m cyberscan cracking_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
+                "template":"python3 -m cyberscan bruteforce_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
                 }
         }
 
