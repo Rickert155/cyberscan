@@ -84,6 +84,8 @@ def parser_url(url_plugin):
     global COUNT_PLUGINS
     global COUNT_FIND_PLUGIN
     
+    slug_plugin = url_plugin.split("/readme.txt")[0].split("/plugins/")[1]
+    
     with count_plugin_lock:
         COUNT_PLUGINS+=1
         if COUNT_PLUGINS % 100 == 0 or COUNT_PLUGINS == LEN_LIST_PLUGINS:
@@ -117,7 +119,9 @@ def parser_url(url_plugin):
                         data = json.load(file)
                     plugin = {
                             "number":COUNT_FIND_PLUGIN, 
-                            "plugin":plugin_name, 
+                            "plugin":plugin_name,
+                            "slug_plugin":slug_plugin,
+                            "url_plugin":url_plugin,
                             "version":plugin_version
                             }
                     data.append(plugin)
