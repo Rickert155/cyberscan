@@ -9,7 +9,7 @@ from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
 from cyberscan.cracker.bruteforce_login import bruteforce_login
-from cyberscan.social.cyberwarnuser import cyberwarnuser
+from cyberscan.social.search_users import search_users
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
 from cyberscan.fuzz.get_links import get_links
@@ -78,6 +78,13 @@ COMMANDS = {
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
                 "template":"python3 -m cyberscan bruteforce_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
+                },
+        "search-user":{
+                "name":"Search for users on social networks",
+                "module":search_users,
+                "args":["--user=", "--workers="],
+                "mode_test":False,
+                "template":"python3 -m cyberscan search-user --user=username"
                 }
         }
 

@@ -1,0 +1,38 @@
+[
+    {
+	    "name":"Habr",
+	    "category":"Forum",
+	    "url":"https://habr.com/ru/users/[USER]",
+	    "fail":"Страница устарела, была удалена или не существовала вовсе",
+	    "fail_code":[404, 403],
+	    "success_text":"Зарегистрирован",
+	    "success_code":200
+    },
+    {
+	    "name":"GitHub",
+	    "category":"Code Repository",
+	    "url":"https://github.com/[USER]",
+	    "fail":"Not Fount",
+	    "fail_code":[404],
+	    "success_text":"project",
+	    "success_code":200
+    },
+    {
+	    "name":"GitLab",
+	    "category":"Code Repository",
+	    "url":"https://gitlab.com/[USER]",
+	    "fail":"https://gitlab.com/users/sign_in",
+	    "fail_code":[302, 403],
+	    "success_text":"project",
+	    "success_code":200
+    },
+    {
+	    "name":"Docker",
+	    "category":"Containers(docker/podman)",
+	    "url":"https://hub.docker.com/u/[USER]",
+	    "fail":"https://dockerstatic.com/hub-ui/fznu17oz.png",
+	    "fail_code":[404],
+	    "success_text":"Repositories",
+	    "success_code":200
+    }
+]
