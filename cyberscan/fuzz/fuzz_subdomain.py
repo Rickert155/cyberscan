@@ -7,7 +7,7 @@ import requests
 import sys
 from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import CoreSetting, divide_line 
+from cyberscan.core.core import CoreSetting, get_proxy, divide_line 
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
@@ -47,7 +47,8 @@ def check_subdomain(subdomain:str) -> list[bool, str]:
                 )
     try:
         headers = Headers().create_headers()
-        response = requests.get(subdomain, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(subdomain, headers=headers, proxies=proxy)
         status_code = response.status_code
         server_headers = response.headers
         

@@ -2,7 +2,7 @@ import json
 import requests
 import sys
 from cyberscan.core.colors import RED, RESET, GREEN, BOLD, YELLOW
-from cyberscan.core.core import CoreSetting, divide_line
+from cyberscan.core.core import CoreSetting, get_proxy, divide_line
 from cyberscan.core.header import Headers
 
 from concurrent.futures import ThreadPoolExecutor
@@ -19,7 +19,8 @@ def check_user(service:dict[str], user:str):
         success_code = service["success_code"]
 
         headers = Headers().create_headers()
-        response = requests.get(url, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(url, headers=headers, proxies=proxy)
 
         text_result = response.text
         status_code = response.status_code

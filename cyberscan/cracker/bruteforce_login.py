@@ -4,6 +4,7 @@ import requests
 from cyberscan.core.core import log_server_response
 from cyberscan.core.colors import RED, RESET, BLUE, BOLD, GREEN
 from cyberscan.core.header import Headers
+from cyberscan.core.core import get_proxy
 
 def get_wordlist(file_name:str) -> list[str]:
     if not os.path.exists(file_name):
@@ -37,9 +38,9 @@ def send_form(user:str, password:str, fail_message:str, url:str, data_form:str):
 
     try:
         headers = Headers().create_headers()
-        headers["X-Forwarded-For"] = Headers().generate_ip()
+        proxy = get_proxy()
         response_range_status = range(200, 400)
-        response = requests.post(url, headers=headers, data=data)
+        response = requests.post(url, headers=headers, data=data, proxies=proxy)
         status_code = response.status_code
         print(f"| Response: {status_code}")
         if status_code not in response_range_status:

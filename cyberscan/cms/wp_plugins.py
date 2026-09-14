@@ -9,7 +9,7 @@ import subprocess
 import time
 from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import CoreSetting, divide_line
+from cyberscan.core.core import CoreSetting, get_proxy, divide_line
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
@@ -95,7 +95,8 @@ def parser_url(url_plugin):
                 )
     try:
         headers = Headers().create_headers()
-        response = requests.get(url_plugin, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(url_plugin, headers=headers, proxies=proxy)
         if response.status_code == 200:
             
             with count_find_lock:

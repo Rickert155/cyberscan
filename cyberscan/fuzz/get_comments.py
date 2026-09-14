@@ -5,6 +5,7 @@ import requests
 import sys
 from bs4 import BeautifulSoup
 from cyberscan.core.header import Headers
+from cyberscan.core.core import get_proxy
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 
 def recording_comments(url:str, comments:list=None):
@@ -25,7 +26,8 @@ def get_comments(args:dict[str]):
     if url[-1] == "/":url = url[:-1]
     try:
         headers = Headers().create_headers()
-        response = requests.get(url, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(url, headers=headers, proxies=proxy)
         if response.status_code == 200:
             list_lines = []
             source_text = response.text

@@ -7,7 +7,7 @@ import requests
 import sys
 from cyberscan.core.header import Headers
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import CoreSetting, divide_line
+from cyberscan.core.core import CoreSetting, get_proxy, divide_line
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
@@ -43,7 +43,8 @@ def check_url(url:str) -> list[bool, dict|str]:
         print(f"{GREEN}| Progress: [{COUNT_DIR}/{LEN_LIST_DIR}]")
     try:
         headers = Headers().create_headers()
-        response = requests.get(url, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(url, headers=headers, proxies=proxy)
         
         status_code = response.status_code
         server_headers = response.headers

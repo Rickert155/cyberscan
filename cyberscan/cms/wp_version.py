@@ -4,7 +4,7 @@
 import sys
 import requests
 from cyberscan.core.header import Headers
-from cyberscan.core.core import greeting, divide_line
+from cyberscan.core.core import greeting, divide_line, get_proxy
 from cyberscan.core.colors import GREEN, RESET, BOLD, RED
 from bs4 import BeautifulSoup
 
@@ -17,7 +17,8 @@ def parser_version(url:str) -> str:
         headers = Headers().create_headers()
         headers["Accept-Encoding"] = "gzip, deflate"
         full_url = f"{url}/wp-admin/about.php"
-        response = requests.get(full_url, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(full_url, headers=headers, proxies=proxy)
         status_code = response.status_code
         if status_code == 200:
             bs = BeautifulSoup(response.text, "lxml")

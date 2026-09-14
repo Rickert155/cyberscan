@@ -76,6 +76,13 @@ class CoreSetting:
 
         return found_config, not_found_config
 
+def get_proxy() -> dict[str]|None:
+    proxy = CoreSetting().get_settings()["proxy"]
+    if proxy:
+        return {"http":proxy}
+    else:
+        return None
+
 def divide_line() -> str:
     len_line = int(shutil.get_terminal_size().columns)-1
     line = "-"*len_line

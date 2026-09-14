@@ -5,6 +5,7 @@ import os
 import requests
 import sys
 from cyberscan.core.header import Headers
+from cyberscan.core.core import get_proxy
 from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from bs4 import BeautifulSoup
 
@@ -42,8 +43,9 @@ def get_links(args:dict[str]) -> None:
     try:
         headers = Headers().create_headers()
         headers["Host"] = url.split("://")[1]
+        proxy = get_proxy()
 
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, proxies=proxy)
         status_code = response.status_code
         if response.status_code == 200:
             links = extract_links(response=response.text, url=url)
