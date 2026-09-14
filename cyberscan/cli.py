@@ -73,14 +73,14 @@ COMMANDS = {
             "template":"python3 -m cyberscan wp-version --url=https://example.com"
             },
         "bruteforce-login":{
-                "name":"Брутфорс логина/пароля",
+                "name":"Brute Force логина/пароля",
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
                 "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
                 },
         "search-user":{
-                "name":"Search for users on social networks",
+                "name":"Поиск по никнейму",
                 "module":search_users,
                 "args":["--user=", "--workers="],
                 "mode_test":False,
