@@ -14,7 +14,7 @@
 	    "url":"https://github.com/[USER]",
 	    "fail":"Not Fount",
 	    "fail_code":[404],
-	    "success_text":"project",
+	    "success_text":"Block or report user",
 	    "success_code":200
     },
     {
@@ -28,7 +28,7 @@
     },
     {
 	    "name":"Docker",
-	    "category":"Containers(docker/podman)",
+	    "category":"Containers Repository",
 	    "url":"https://hub.docker.com/u/[USER]",
 	    "fail":"https://dockerstatic.com/hub-ui/fznu17oz.png",
 	    "fail_code":[404],
@@ -37,7 +37,7 @@
     },
     {
 	    "name":"Kwork",
-	    "category":"Freelance",
+	    "category":"Work",
 	    "url":"https://kwork.ru/user/[USER]",
 	    "fail":"Страница не найдена",
 	    "fail_code":[404],
@@ -51,6 +51,25 @@
 	    "fail":"Oops! That page doesn’t exist or is private.",
 	    "fail_code":[404],
 	    "success_text":"Joined",
+	    "success_code":200
+    },
+    {
+	    "name":"All My Links",
+	    "category":"Social",
+	    "url":"https://allmylinks.com/[USER]",
+	    "fail":"Page not found",
+	    "fail_code":[404],
+	    "success_text":"Follow",
+	    "success_code":200
+    },
+
+    {
+	    "name":"Habr",
+	    "category":"Forum",
+	    "url":"https://habr.com/ru/users/[USER]",
+	    "fail":"Страница устарела, была удалена или не существовала вовсе",
+	    "fail_code":[404, 403],
+	    "success_text":"Зарегистрирован",
 	    "success_code":200
     }
 ]
