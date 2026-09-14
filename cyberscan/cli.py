@@ -16,7 +16,7 @@ from cyberscan.fuzz.get_links import get_links
 from cyberscan.fuzz.get_comments import get_comments
 
 COMMANDS = {
-        "fuzz_subdomains":{
+        "fuzz-subdomains":{
             "name":"Сканер поддоменов",
             "module":fuzz_subdomains,
             "args":["--url=", "--wordlist=", "--workers="],
@@ -24,11 +24,11 @@ COMMANDS = {
             "example_wordlist":"data/wordlist/web/subdomains.txt",
             "mode_test":True,
             "template":(
-                "python3 -m cyberscan fuzz_subdomains "
+                "python3 -m cyberscan fuzz-subdomains "
                 "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20"
                 )
             },
-        "fuzz_dirs":{
+        "fuzz-dirs":{
             "name":"Сканер директорий",
             "module":fuzz_dirs,
             "args":["--url=", "--wordlist=", "--workers="],
@@ -36,25 +36,25 @@ COMMANDS = {
             "example_wordlist":"data/wordlist/web/dir.txt",
             "mode_test":True,
             "template":(
-                "python3 -m cyberscan fuzz_dirs "
+                "python3 -m cyberscan fuzz-dirs "
                 "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt --workers=20"
                 )
             },
-        "get_links":{
+        "get-links":{
             "name":"Сборщик ссылок",
             "module":get_links,
             "args":["--url="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan get_links --url=https://example.com"
+            "template":"python3 -m cyberscan get-links --url=https://example.com"
             },
-        "get_comments":{
+        "get-comments":{
             "name":"Сборщик комментариев",
             "module":get_comments,
             "args":["--url="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan get_comments --url=https://example.com"
+            "template":"python3 -m cyberscan get-comments --url=https://example.com"
             },
         "wp-plugins":{
             "name":"Сканер плагинов WordPress",
@@ -72,12 +72,12 @@ COMMANDS = {
             "mode_test":True,
             "template":"python3 -m cyberscan wp-version --url=https://example.com"
             },
-        "bruteforce_login":{
-                "name":"Cracking user passwords",
+        "bruteforce-login":{
+                "name":"Брутфорс логина/пароля",
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
-                "template":"python3 -m cyberscan bruteforce_login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
+                "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
                 },
         "search-user":{
                 "name":"Search for users on social networks",
