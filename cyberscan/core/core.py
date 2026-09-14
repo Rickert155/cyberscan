@@ -30,7 +30,8 @@ class CoreSetting:
                     "path_default_useragent_json":"data/agent.json",
                     "path_default_wp_plugin":"data/wp_plugins.txt",
                     "path_default__test_wp_plugin":"data/test_wp_plugins.txt",
-                    "path_default_social_service":"data/social_services.json"
+                    "path_default_social_service":"data/social_services.json",
+                    "proxy":None
                     }
             with open(self.settings_path, "w") as file:
                 json.dump(data, file, indent=4)
