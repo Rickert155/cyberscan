@@ -1,3 +1,6 @@
+"""
+Module: search-user
+"""
 import json
 import requests
 import sys

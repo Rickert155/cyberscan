@@ -34,5 +34,23 @@
 	    "fail_code":[404],
 	    "success_text":"Repositories",
 	    "success_code":200
+    },
+    {
+	    "name":"Kwork",
+	    "category":"Freelance",
+	    "url":"https://kwork.ru/user/[USER]",
+	    "fail":"Страница не найдена",
+	    "fail_code":[404],
+	    "success_text":"Отзывы о",
+	    "success_code":200
+    },
+    {
+	    "name":"Caddy",
+	    "category":"Forum",
+	    "url":"https://caddy.community/u/[USER]",
+	    "fail":"Oops! That page doesn’t exist or is private.",
+	    "fail_code":[404],
+	    "success_text":"Joined",
+	    "success_code":200
     }
 ]
