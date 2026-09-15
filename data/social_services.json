@@ -71,5 +71,51 @@
 	    "fail_code":[404, 403],
 	    "success_text":"Зарегистрирован",
 	    "success_code":200
+    },
+    {
+	    "name":"DevTo",
+	    "category":"Forum",
+	    "url":"https://dev.to/[USER]",
+	    "fail":"404 / page not found",
+	    "fail_code":[404],
+	    "success_text":"Follow",
+	    "success_code":304
+    },
+    {
+	    "name":"EndeavourOS Forum",
+	    "category":"Forum",
+	    "url":"https://forum.endeavouros.com/u/[USER]/summary",
+	    "fail":"Oops! That page doesn’t exist or is private.",
+	    "fail_code":[404],
+	    "success_text":"Joined",
+	    "success_code":200
+    },
+    {
+	    "name":"Garuda Forum",
+	    "category":"Forum",
+	    "url":"https://forum.garudalinux.org/u/[USER]/summary",
+	    "fail":"Oops! That page doesn’t exist or is private.",
+	    "fail_code":[404],
+	    "success_text":"Profile",
+	    "success_code":200
+    },
+    {
+	    "name":"Fedora Forum",
+	    "category":"Forum",
+	    "url":"https://discussion.fedoraproject.org/u/[USER]/summary",
+	    "fail":"Oops! That page doesn’t exist or is private.",
+	    "fail_code":[404],
+	    "success_text":"Profile",
+	    "success_code":200
+    },
+    {
+	    "name":"Ubuntu Forum",
+	    "category":"Forum",
+	    "url":"https://discourse.ubuntu.com/u/[USER]/summary",
+	    "fail":"Oops! That page doesn’t exist or is private.",
+	    "fail_code":[404],
+	    "success_text":"Profile",
+	    "success_code":200
     }
+
 ]

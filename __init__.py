@@ -1,5 +1,5 @@
 __author__ = "CyberWarn"
-__version__ = "0.2.6"
+__version__ = "0.2.61"
 __project__ = "CyberScan"
 __authorurl__ = "https://gitea.com/cyberwarn"
 __license__ = "GPLv3"

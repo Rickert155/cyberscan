@@ -62,7 +62,7 @@ COMMANDS = {
             "args":["--url=", "--workers="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan wp-plugins --url=https://example.com, --workers=10"
+            "template":"python3 -m cyberscan wp-plugins --url=https://example.com --workers=10"
             },
         "wp-version":{
             "name":"Сканер версии WordPress",
@@ -77,7 +77,7 @@ COMMANDS = {
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
-                "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\"--fm=\"Incorrect password\""
+                "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\" --fm=\"Incorrect password\""
                 },
         "search-user":{
                 "name":"Поиск по никнейму",
