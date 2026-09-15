@@ -115,15 +115,11 @@ podman run --rm -it -v $PWD/data:/root/cyberscan/data cyberscan
 > Образ собирается вместе с vim и fish для комфортной работы в контейнере
 
 ## Готовый образ Podman/Docker
-Подтягиваем себе образ
+Наиболее протестированные версии доступны в формате образов. Доступны на github и docker.io
 ```sh
-podman pull ghcr.io/rickert155/cyberscan:0.2.2
+podman pull ghcr.io/rickert155/cyberscan:0.2.61
 ```
 Так же вы можете брать образ из Docker Hub
 ```sh
-podman pull docker.io/cyberwarn/cyberscan:0.2.2
-```
-> В образы уже добавлены тестовые wordlists в директорию */root/cyberscan/data*. Свои листы можно монтировать следующим образом
-```sh
-podman -it --rm -v /path/to/wordlist:/root/cyberscan/data/wordlists/wordlist cyberscan:0.2.2
+podman pull docker.io/cyberwarn/cyberscan:0.2.61
 ```
