@@ -47,72 +47,61 @@ def get_headers(file_name:str, type_file:str) -> dict[str] | list[str]:
                         )
     return headers
 
-ALL_HEADERS = []
-COUNT_REQUEST = 0
-
 HARD_SERVERS = ["cloudflare"]
-
 RESULT_FILE = ""
 
 def recording_result(text:str):
     with open(RESULT_FILE, "a+") as file:
         file.write(f"{text}\n\n")
 
-def check_response(url:str) -> None:
-    global COUNT_REQUEST
+def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
     proxy = get_proxy()
     try:
-        for header in ALL_HEADERS:
-            response = requests.get(url, headers=header, proxies=proxy, timeout=10)
-            status_code = response.status_code
-            content_length = len(response.content)
-            response_headers = response.headers
+        user_key, user_value = payload["key"], payload["value"]
+        headers[user_key] = user_value
+        response = requests.get(url, headers=headers, proxies=proxy, timeout=10)
+        status_code = response.status_code
+        content_length = len(response.content)
+        response_headers = response.headers
             
-            response_server = response_headers.get("server")
-            x_powered_by_server = response_headers.get("x-powered-by")
+        response_server = response_headers.get("server")
+        x_powered_by_server = response_headers.get("x-powered-by")
             
-            response_headers_text = (
-                    f"{url} {status_code}\n"
-                    f"Content length: {content_length}\n"
-                    f"Request: \n{header}\n"
-                    )
-            for key in response_headers:
-                text = f"{key}: {response_headers[key]}\n"
-                response_headers_text+=text
-            response_headers_text+="\n"
-            
-            write_text = (
-                    f"{url}\t{status_code}\n"
-                    f""
-                    )
-
-            output_text = (
-                    f"| {GREEN}Status code{RESET}: {status_code}"
-                    f"\t{GREEN}Content length{RESET}: "
-                    f"{BOLD}{content_length}{RESET}\n"
-                    )
-            if response_server:
-                output_text+=f"| {GREEN}Server{RESET}: {response_server}\n"
-                if response_server in HARD_SERVERS:
-                    output_text = output_text.replace(
-                            response_server, f"{RED}{response_server}{RESET}"
-                            )
-            if x_powered_by_server:
-                output_text+=(
-                        f"| {GREEN}X-Powered-By{RESET}: "
-                        f"{x_powered_by_server}\n"
+        response_headers_text = (
+                f"{status_code} {url}\n"
+                f"Content length: {content_length}\n"
+                f"{user_key}: {user_value}\n\n"
+                )
+        for key in response_headers:
+            text = f"{key}: {response_headers[key]}\n"
+            response_headers_text+=text
+        
+        output_text = (
+                f"| {GREEN}Status code{RESET}: {status_code}\n"
+                f"| {GREEN}Content length{RESET}: "
+                f"{BOLD}{content_length}{RESET}\n"
+                )
+        if response_server:
+            output_text+=f"| {GREEN}Server{RESET}: {response_server}\n"
+            if response_server in HARD_SERVERS:
+                output_text = output_text.replace(
+                        response_server, f"{RED}{response_server}{RESET}"
                         )
+        if x_powered_by_server:
             output_text+=(
-                    f"| {divide_line()[:-1]}"
+                    f"| {GREEN}X-Powered-By{RESET}: "
+                    f"{x_powered_by_server}\n"
                     )
-            print(output_text)
-            #print(response.headers)
-            recording_result(text=response_headers_text)
+        output_text+=(
+                f"| {divide_line()[:-1]}"
+                )
+        print(output_text)
+        #print(response.headers)
+        recording_result(text=response_headers_text)
     except Exception as err:
         print(f"| {RED}{err}{RESET}")
 
 def bad_headers(args:dict[str]):
-    global ALL_HEADERS
     global RESULT_FILE
     url = args["--url"]
     
@@ -129,22 +118,21 @@ def bad_headers(args:dict[str]):
     source_headers = get_headers(file_name=source_headers, type_file="source")
     users_payloads = get_headers(file_name=users_payloads, type_file="payloads")
 
+    RESULT_FILE = url.split("://")[1]
+    if "/" in RESULT_FILE:RESULT_FILE = RESULT_FILE.split("/")[0]
+    RESULT_FILE = f"{RESULT_FILE}.bad-headers.txt"
+    if os.path.exists(RESULT_FILE):os.remove(RESULT_FILE)
+    
     # Перебор пользовательских payloads
     for user_payloads in users_payloads:
         user_key, user_value = user_payloads["key"], user_payloads["value"]
         # Добавляем payload в исходный файл с заголовками
         headers = source_headers.copy()
-        headers[user_key] = user_value
+        payload = {"key":user_key, "value":user_value}
         user_agent = headers.get("User-Agent")
         if user_agent == None:
             headers["User-Agent"] = Headers().create_headers()["User-Agent"]
-        # Добавляем в глобальный список с заголовками
-        ALL_HEADERS.append(headers)
+        check_response(url=url, payload=payload, headers=headers)
 
-    RESULT_FILE = url.split("://")[1]
-    if "/" in RESULT_FILE:RESULT_FILE = RESULT_FILE.split("/")[0]
-    RESULT_FILE = f"{RESULT_FILE}.bad-headers.txt"
-    if os.path.exists(RESULT_FILE):os.remove(RESULT_FILE)
 
-    check_response(url=url)
 
