@@ -14,6 +14,7 @@ from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
 from cyberscan.fuzz.get_links import get_links
 from cyberscan.fuzz.get_comments import get_comments
+from cyberscan.fuzz.bad_headers import bad_headers
 
 COMMANDS = {
         "fuzz-subdomains":{
@@ -79,11 +80,22 @@ COMMANDS = {
                 "example_url":"https://example.com",
                 "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\" --fm=\"Incorrect password\""
                 },
+        "bad-headers":{
+                "name":"Фаззинг заголовков",
+                "module":bad_headers,
+                "args":["--url=", "--headers=", "--payloads="], 
+                "example_url":"https://example.com",
+                "example_source_headers":"data/bad_headers_temapltes/source-headers.txt",
+                "example_user_payloads":"data/bad_headers_temapltes/user-payloads.txt",
+                "mode_test":True,
+                "template":"python3 -m cyberscan bad-headers --url=https://example.com --headers=headers.txt --payloads=new-headers.txt"
+                },
         "search-user":{
                 "name":"Поиск по никнейму",
                 "module":search_users,
                 "args":["--user=", "--workers="],
-                "mode_test":False,
+                "mode_test":True,
+                "example_username":"tester",
                 "template":"python3 -m cyberscan search-user --user=username"
                 }
         }

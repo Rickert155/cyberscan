@@ -101,6 +101,30 @@ python3 -m cyberscan get-comments --url=https://example.com
 python3 -m cyberscan bruteforce-login --url=https://example.com/login --users=data/wordlist/users.txt --passwords=data/wordlist/auth/passwords.txt --form="username=[USER]&password=[PASSWORD]" --fm="Invalid username or password."
 ```
 
+### Фаззинг заголовков
+Модуль предназначен для проверки ответов приложения на различную полезную нагрузку в заголовках HTTP запросов.  
+Необходимо два файл:  
+- **Исходный файл** - передается значением для параметра --headers
+- **Файл с полезной нагрузкой** - передается значением для параметра --payloads  
+
+Модуль считывает построчно для каждого запроса строку с заголовком - в каждом запросе используется исходный запрос + новый заголовок. Если в исходном файле уже есть заголовок из payloads - в таком случае заголовок будет заменен тем, что используется в payloads.  
+
+Для тестирования подготовлены два файл с заголовками:  
+- data/bad_headers_temapltes/source-headers.txt
+- data/bad_headers_temapltes/user-payloads.txt  
+
+Заголовки запролняются через двоеточие(ключ: значение)
+```txt
+Host: www.example.com
+User-Agent: Test user-agent
+```
+
+Если заголовок **User-Agent** отсутствует - он будет сгенерирован автоматически.  
+
+Пример использования: 
+```sh
+python3 -m cyberscan bad-headers --url=https://example.com --headers=data/bad_headers_temapltes/source-headers.txt --payloads=data/bad_headers_temapltes/user-payloads.txt
+```
 
 ## Запуск в контейнере
 Для запуска в контенере подготовлен Containerfile.  
