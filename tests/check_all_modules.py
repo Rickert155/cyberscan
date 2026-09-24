@@ -3,11 +3,12 @@ from cyberscan.cli import COMMANDS
 from cyberscan.core.core import divide_line
 from cyberscan.cms.wp_plugins import scanWordPressPlugins
 from cyberscan.cms.wp_version import scanWordPressVersion
-from cyberscan.social.cyberwarnuser import cyberwarnuser
+from cyberscan.social.search_users import search_users 
 from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
 from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
 from cyberscan.fuzz.get_links import get_links
 from cyberscan.fuzz.get_comments import get_comments
+from cyberscan.fuzz.bad_headers import bad_headers
 
 def tests():
     user_url = None
@@ -23,6 +24,7 @@ def tests():
         module = COMMANDS[command]["module"]
         args = COMMANDS[command]["args"]
         template = COMMANDS[command]["template"]
+        example_username = COMMANDS[command].get("example_username")
         mode_test = COMMANDS[command].get("mode_test")
 
         if not mode_test:
@@ -39,7 +41,10 @@ def tests():
         data["template"] = template
         data["mode_test"] = mode_test
         data["--url"] = url
-        data["--workers"] = 20
+        data["--workers"] = 10
+
+        if example_username:
+            data["--user"] = example_username
         
         if example_wordlist:
             data["--wordlist"] = example_wordlist
