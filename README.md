@@ -22,12 +22,13 @@ python3 -m cyberscan
 - Сбор ссылок с ресурса
 - Сбор комментариев HTML с ресурса  
 - Brute Force доступов пользователей к веб-приложению
+- Фаззиниг заголовков
 - Поиск пользователей по нику в социальных сетях(в процессе разработки)
 
 > Есть возможность добавить прокси в *data/settings.json*
 
 ## Тестирование/отладка
-Для проверки всех модулей использовается tests/check_all_modules
+Для проверки всех модулей используется tests/check_all_modules
 ```sh
 python3 -m tests.check_all_modules
 ```
@@ -46,7 +47,7 @@ python3 -m cyberscan
 |-------------------------------------------------------
 | author:       CyberWarn	https://gitea.com/cyberwarn
 | project:      CyberScan	GPLv3      
-| version:      0.2.5     
+| version:      0.2.7     
 |-------------------------------------------------------
 | CyberScan
 | [1] Сканер поддоменов: fuzz-subdomains
@@ -56,7 +57,9 @@ python3 -m cyberscan
 | [5] Сканер плагинов WordPress: wp-plugins
 | [6] Сканер версии WordPress: wp-version
 | [7] Брутфорс логина/пароля: bruteforce-login
+| [8] Фаззинг заголовков: bad-headers
 | [8] Search for users on social networks: search-user
+```
 Для просмотри с примерами команд:
 ```sh
 python3 -m cyberscan --help
