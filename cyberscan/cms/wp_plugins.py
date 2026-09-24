@@ -21,7 +21,8 @@ def check_wordpress(url:str) -> bool:
 
     try:
         wp_admin_url = f"{url}/wp-admin/"
-        response = requests.get(url=wp_admin_url, headers=headers)
+        proxy = get_proxy()
+        response = requests.get(url=wp_admin_url, headers=headers, proxies=proxy)
         status_code = response.status_code
         if status_code in status_ok:
             return True, status_code
