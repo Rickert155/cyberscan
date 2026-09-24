@@ -25,15 +25,15 @@ def tests():
         args = COMMANDS[command]["args"]
         template = COMMANDS[command]["template"]
         example_username = COMMANDS[command].get("example_username")
+        example_source_headers = COMMANDS[command].get("example_source_headers")
+        example_user_payloads = COMMANDS[command].get("example_user_payloads")
         mode_test = COMMANDS[command].get("mode_test")
 
         if not mode_test:
             continue 
         
-        if user_url:
-            url = user_url
-        else:
-            url = COMMANDS[command]["example_url"]
+        if user_url:url = user_url
+        else:url = COMMANDS[command]["example_url"]
         
         example_wordlist = COMMANDS[command].get("example_wordlist")
         
@@ -43,8 +43,9 @@ def tests():
         data["--url"] = url
         data["--workers"] = 10
 
-        if example_username:
-            data["--user"] = example_username
+        if example_username:data["--user"] = example_username
+        if example_source_headers:data["--headers"] = example_source_headers
+        if example_user_payloads:data["--payloads"] = example_user_payloads
         
         if example_wordlist:
             data["--wordlist"] = example_wordlist
