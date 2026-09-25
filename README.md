@@ -53,10 +53,10 @@ python3 -m cyberwarn
 ```sh
 |-------------------------------------------------------
 | author:       CyberWarn	https://gitea.com/cyberwarn
-| project:      CyberScan	GPLv3      
-| version:      0.2.7     
+| project:      CyberWarn	GPLv3      
+| version:      0.3.0     
 |-------------------------------------------------------
-| CyberScan
+| CyberWarn 
 | [1] Сканер поддоменов: fuzz-subdomains
 | [2] Сканер директорий: fuzz-dirs
 | [3] Сборщик ссылок: get-links
