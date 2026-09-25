@@ -1,9 +1,16 @@
-# Сканнер веб-приложений
+# CyberWarn
+
+**CyberWarn** - Инструмент для автоматизированного выявления угроз кибер-безопасности, основанный на сканировании веб-приложений и проведении социотехнического тестирования (Social Engineering).  
+
+Инструмент разработан с упором на легковесную модульную архитектуру, отсутствие тяжелых зависимостей и удобную автоматизацию рутинных задач этичного хакинга.  
+
+## Disclaimer
+> Данный инструмент разработан исключительно для проведения санкционированного аудита безопасности и легального тестирования на проникновение. Автор проекта не несет ответственности за любой возможный ущерб, недополученную прибыль или вред, причиненный в результате нецелевого или неправомерного использования инструмента **CyberWarn**. 
 
 ## Клонирование/Установка
 clone
 ```sh
-git clone https://gitea.com/cyberwarn/cyberscan && cd cyberscan
+git clone https://gitea.com/cyberwarn/cyberwarn && cd cyberwarn
 ```
 установка пакетов
 ```sh
@@ -11,7 +18,7 @@ python3 -m venv venv && source venv/bin/activate && pip install -r packages.txt
 ```
 Тестовый запуск
 ```sh
-python3 -m cyberscan
+python3 -m cyberwarn
 ```
 
 ## Возможности
@@ -38,9 +45,9 @@ python3 -m tests.check_all_modules https://example.com
 ```
 
 ## Использование модулей
-Для просмотра доступных модулей использовать cyberscan без аргументов
+Для просмотра доступных модулей использовать cyberwarn без аргументов
 ```sh
-python3 -m cyberscan
+python3 -m cyberwarn
 ```
 Вывод будет примерно таким:
 ```sh
@@ -62,49 +69,35 @@ python3 -m cyberscan
 ```
 Для просмотри с примерами команд:
 ```sh
-python3 -m cyberscan --help
+python3 -m cyberwarn --help
 ```
 
-### Сканер плагинов WordPress
+
+### Анализ CMS
+**Сканер плагинов WordPress**  
 Пример использования:
 ```sh
-python3 -m cyberscan wp-plugins --url=https://127.0.0.1:3000 --workers=20
+python3 -m cyberwarn wp-plugins --url=https://127.0.0.1:3000 --workers=20
 ```
-### Сканер версии WordPress
+**Сканер версии WordPress**  
 Пример использования:
 ```sh
-python3 -m cyberscan wp-version --url=http://127.0.0.1:3000
+python3 -m cyberwarn wp-version --url=http://127.0.0.1:3000
 ```
 
-### Сканер поддоменов
+### Анализ возможных поверхностей атак
+**Сканер поддоменов**  
 Пример использования:
 ```sh
-python3 -m cyberscan fuzz-subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20
+python3 -m cyberwarn fuzz-subdomains --url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20
 ```
 
-### Сканер директорий
+**Сканер директорий**  
 ```sh
-python3 -m cyberscan fuzz-dirs --url=https://example.com --wordlist=data/wordlist/web/dir.txt --workers=20
+python3 -m cyberwarn fuzz-dirs --url=https://example.com --wordlist=data/wordlist/web/dir.txt --workers=20
 ```
 
-### Сборщик ссылок
-Пример использования:
-```sh
-python3 -m cyberscan get-links --url=http://example.com
-```
-### Сборщик комментариев
-Пример использования:
-```sh
-python3 -m cyberscan get-comments --url=https://example.com
-```
-
-### Перебор логинов/паролей веб-приложения
-Пример использования:
-```sh
-python3 -m cyberscan bruteforce-login --url=https://example.com/login --users=data/wordlist/users.txt --passwords=data/wordlist/auth/passwords.txt --form="username=[USER]&password=[PASSWORD]" --fm="Invalid username or password."
-```
-
-### Фаззинг заголовков
+**Фаззинг заголовков**  
 Модуль предназначен для проверки ответов приложения на различную полезную нагрузку в заголовках HTTP запросов.  
 Необходимо два файл:  
 - **Исходный файл** - передается значением для параметра --headers
@@ -121,32 +114,49 @@ python3 -m cyberscan bruteforce-login --url=https://example.com/login --users=da
 Host: www.example.com
 User-Agent: Test user-agent
 ```
-
 Если заголовок **User-Agent** отсутствует - он будет сгенерирован автоматически.  
 
 Пример использования: 
 ```sh
-python3 -m cyberscan bad-headers --url=https://example.com --headers=data/bad_headers_temapltes/source-headers.txt --payloads=data/bad_headers_temapltes/user-payloads.txt
+python3 -m cyberwarn bad-headers --url=https://example.com --headers=data/bad_headers_temapltes/source-headers.txt --payloads=data/bad_headers_temapltes/user-payloads.txt
+```
+
+**Сбор ссылок с ресурса**  
+Пример использования:
+```sh
+python3 -m cyberwarn get-links --url=http://example.com
+```
+**Сбор комментариев с ресурса**  
+Пример использования:
+```sh
+python3 -m cyberwarn get-comments --url=https://example.com
+```
+
+### Взлом приложения, подбор учетных данных
+**Подбор логина/пароля формы авторизации**  
+Пример использования:
+```sh
+python3 -m cyberwarn bruteforce-login --url=https://example.com/login --users=data/wordlist/users.txt --passwords=data/wordlist/auth/passwords.txt --form="username=[USER]&password=[PASSWORD]" --fm="Invalid username or password."
 ```
 
 ## Запуск в контейнере
 Для запуска в контенере подготовлен Containerfile.  
 Собираем образ:
 ```sh
-podman build -t cyberscan -f Containerfile
+podman build -t cyberwarn -f Containerfile
 ```
 Запускаем контейнер на основе нашего образа, монтируя директорию data:
 ```sh
-podman run --rm -it -v $PWD/data:/root/cyberscan/data cyberscan
+podman run --rm -it -v $PWD/data:/root/cyberwarn/data cyberwarn
 ```
 > Образ собирается вместе с vim и fish для комфортной работы в контейнере
 
 ## Готовый образ Podman/Docker
 Наиболее протестированные версии доступны в формате образов. Доступны на github и docker.io
 ```sh
-podman pull ghcr.io/rickert155/cyberscan:0.2.61
+podman pull ghcr.io/rickert155/cyberwarn:0.3.0
 ```
 Так же вы можете брать образ из Docker Hub
 ```sh
-podman pull docker.io/cyberwarn/cyberscan:0.2.61
+podman pull docker.io/cyberwarn/cyberwarn:0.3.0
 ```

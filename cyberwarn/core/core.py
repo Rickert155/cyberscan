@@ -3,8 +3,8 @@ import os
 import json
 import shutil
 import time
-from cyberscan.core.colors import RED, RESET, BOLD, GREEN
-from cyberscan.core.config import LOG_FILE
+from cyberwarn.core.colors import RED, RESET, BOLD, GREEN
+from cyberwarn.core.config import LOG_FILE
 from __init__ import (
         __author__, 
         __version__, 

@@ -3,18 +3,18 @@
 """
 import textwrap
 import sys
-from cyberscan.core.core import init, divide_line, greeting
+from cyberwarn.core.core import init, divide_line, greeting
 from __init__ import __project__
-from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.cms.wp_plugins import scanWordPressPlugins
-from cyberscan.cms.wp_version import scanWordPressVersion
-from cyberscan.cracker.bruteforce_login import bruteforce_login
-from cyberscan.social.search_users import search_users
-from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
-from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
-from cyberscan.fuzz.get_links import get_links
-from cyberscan.fuzz.get_comments import get_comments
-from cyberscan.fuzz.bad_headers import bad_headers
+from cyberwarn.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
+from cyberwarn.cms.wp_plugins import scanWordPressPlugins
+from cyberwarn.cms.wp_version import scanWordPressVersion
+from cyberwarn.cracker.bruteforce_login import bruteforce_login
+from cyberwarn.social.search_users import search_users
+from cyberwarn.fuzz.fuzz_subdomain import fuzz_subdomains
+from cyberwarn.fuzz.fuzz_dirs import fuzz_dirs
+from cyberwarn.fuzz.get_links import get_links
+from cyberwarn.fuzz.get_comments import get_comments
+from cyberwarn.fuzz.bad_headers import bad_headers
 
 COMMANDS = {
         "fuzz-subdomains":{
@@ -25,7 +25,7 @@ COMMANDS = {
             "example_wordlist":"data/wordlist/web/subdomains.txt",
             "mode_test":True,
             "template":(
-                "python3 -m cyberscan fuzz-subdomains "
+                "python3 -m cyberwarn fuzz-subdomains "
                 "--url=https://example.com --wordlist=data/wordlist/web/subdomains.txt --workers=20"
                 )
             },
@@ -37,7 +37,7 @@ COMMANDS = {
             "example_wordlist":"data/wordlist/web/dir.txt",
             "mode_test":True,
             "template":(
-                "python3 -m cyberscan fuzz-dirs "
+                "python3 -m cyberwarn fuzz-dirs "
                 "--url=https://example.com --wordlist=data/wordlist/web/dir_959.txt --workers=20"
                 )
             },
@@ -47,7 +47,7 @@ COMMANDS = {
             "args":["--url="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan get-links --url=https://example.com"
+            "template":"python3 -m cyberwarn get-links --url=https://example.com"
             },
         "get-comments":{
             "name":"Сборщик комментариев",
@@ -55,7 +55,7 @@ COMMANDS = {
             "args":["--url="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan get-comments --url=https://example.com"
+            "template":"python3 -m cyberwarn get-comments --url=https://example.com"
             },
         "wp-plugins":{
             "name":"Сканер плагинов WordPress",
@@ -63,7 +63,7 @@ COMMANDS = {
             "args":["--url=", "--workers="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan wp-plugins --url=https://example.com --workers=10"
+            "template":"python3 -m cyberwarn wp-plugins --url=https://example.com --workers=10"
             },
         "wp-version":{
             "name":"Сканер версии WordPress",
@@ -71,14 +71,14 @@ COMMANDS = {
             "args":["--url="],
             "example_url":"http://example.com",
             "mode_test":True,
-            "template":"python3 -m cyberscan wp-version --url=https://example.com"
+            "template":"python3 -m cyberwarn wp-version --url=https://example.com"
             },
         "bruteforce-login":{
                 "name":"Brute Force логина/пароля",
                 "module":bruteforce_login,
                 "args":["--url=", "--users=", "--passwords=", "--form=", "--fm="],
                 "example_url":"https://example.com",
-                "template":"python3 -m cyberscan bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\" --fm=\"Incorrect password\""
+                "template":"python3 -m cyberwarn bruteforce-login --url=https://example.com --users=users.txt --passwords=passwords.txt --form=\"username=[USER]&password=[PASSWORD]\" --fm=\"Incorrect password\""
                 },
         "bad-headers":{
                 "name":"Фаззинг заголовков",
@@ -88,7 +88,7 @@ COMMANDS = {
                 "example_source_headers":"data/bad_headers_temapltes/source-headers.txt",
                 "example_user_payloads":"data/bad_headers_temapltes/user-payloads.txt",
                 "mode_test":True,
-                "template":"python3 -m cyberscan bad-headers --url=https://example.com --headers=headers.txt --payloads=new-headers.txt"
+                "template":"python3 -m cyberwarn bad-headers --url=https://example.com --headers=headers.txt --payloads=new-headers.txt"
                 },
         "search-user":{
                 "name":"Поиск по никнейму",
@@ -96,7 +96,7 @@ COMMANDS = {
                 "args":["--user=", "--workers="],
                 "mode_test":True,
                 "example_username":"tester",
-                "template":"python3 -m cyberscan search-user --user=username"
+                "template":"python3 -m cyberwarn search-user --user=username"
                 }
         }
 

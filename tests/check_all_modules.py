@@ -1,14 +1,14 @@
 import sys
-from cyberscan.cli import COMMANDS
-from cyberscan.core.core import divide_line
-from cyberscan.cms.wp_plugins import scanWordPressPlugins
-from cyberscan.cms.wp_version import scanWordPressVersion
-from cyberscan.social.search_users import search_users 
-from cyberscan.fuzz.fuzz_subdomain import fuzz_subdomains
-from cyberscan.fuzz.fuzz_dirs import fuzz_dirs
-from cyberscan.fuzz.get_links import get_links
-from cyberscan.fuzz.get_comments import get_comments
-from cyberscan.fuzz.bad_headers import bad_headers
+from cyberwarn.cli import COMMANDS
+from cyberwarn.core.core import divide_line
+from cyberwarn.cms.wp_plugins import scanWordPressPlugins
+from cyberwarn.cms.wp_version import scanWordPressVersion
+from cyberwarn.social.search_users import search_users 
+from cyberwarn.fuzz.fuzz_subdomain import fuzz_subdomains
+from cyberwarn.fuzz.fuzz_dirs import fuzz_dirs
+from cyberwarn.fuzz.get_links import get_links
+from cyberwarn.fuzz.get_comments import get_comments
+from cyberwarn.fuzz.bad_headers import bad_headers
 
 def tests():
     user_url = None

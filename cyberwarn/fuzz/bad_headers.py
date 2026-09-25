@@ -1,9 +1,9 @@
 import requests
 import os
 import sys
-from cyberscan.core.colors import RED, RESET, GREEN, BOLD
-from cyberscan.core.header import Headers
-from cyberscan.core.core import get_proxy, divide_line
+from cyberwarn.core.colors import RED, RESET, GREEN, BOLD
+from cyberwarn.core.header import Headers
+from cyberwarn.core.core import get_proxy, divide_line
 
 def get_headers(file_name:str, type_file:str) -> dict[str] | list[str]:
     """
@@ -68,7 +68,7 @@ def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
         x_powered_by_server = response_headers.get("x-powered-by")
             
         response_headers_text = (
-                f"{status_code} {url}\n"
+                f"{status_code}: {url}\n"
                 f"Content length: {content_length}\n"
                 f"{user_key}: {user_value}\n\n"
                 )
@@ -80,6 +80,8 @@ def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
                 f"| {GREEN}Status code{RESET}: {status_code}\n"
                 f"| {GREEN}Content length{RESET}: "
                 f"{BOLD}{content_length}{RESET}\n"
+                f"| {GREEN}Payload{RESET}: "
+                f"{payload['key']}: {payload['value']}\n"
                 )
         if response_server:
             output_text+=f"| {GREEN}Server{RESET}: {response_server}\n"

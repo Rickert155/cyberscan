@@ -3,9 +3,9 @@
 """
 import sys
 import requests
-from cyberscan.core.header import Headers
-from cyberscan.core.core import greeting, divide_line, get_proxy
-from cyberscan.core.colors import GREEN, RESET, BOLD, RED
+from cyberwarn.core.header import Headers
+from cyberwarn.core.core import greeting, divide_line, get_proxy
+from cyberwarn.core.colors import GREEN, RESET, BOLD, RED
 from bs4 import BeautifulSoup
 
 

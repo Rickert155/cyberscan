@@ -4,9 +4,9 @@
 import requests
 import sys
 from bs4 import BeautifulSoup
-from cyberscan.core.header import Headers
-from cyberscan.core.core import get_proxy
-from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
+from cyberwarn.core.header import Headers
+from cyberwarn.core.core import get_proxy
+from cyberwarn.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 
 def recording_comments(url:str, comments:list=None):
     file_name = url.split("://")[1].replace("/", "--")+".comments.txt"

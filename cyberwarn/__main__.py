@@ -1,4 +1,4 @@
-from cyberscan.cli import main
+from cyberwarn.cli import main
 
 if __name__ == "__main__":
     try:

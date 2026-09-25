@@ -1,10 +1,10 @@
 import os
 import sys
 import requests
-from cyberscan.core.core import log_server_response
-from cyberscan.core.colors import RED, RESET, BLUE, BOLD, GREEN
-from cyberscan.core.header import Headers
-from cyberscan.core.core import get_proxy
+from cyberwarn.core.core import log_server_response
+from cyberwarn.core.colors import RED, RESET, BLUE, BOLD, GREEN
+from cyberwarn.core.header import Headers
+from cyberwarn.core.core import get_proxy
 
 def get_wordlist(file_name:str) -> list[str]:
     if not os.path.exists(file_name):

@@ -7,9 +7,9 @@ import os
 import sys
 import subprocess
 import time
-from cyberscan.core.header import Headers
-from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
-from cyberscan.core.core import CoreSetting, get_proxy, divide_line
+from cyberwarn.core.header import Headers
+from cyberwarn.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
+from cyberwarn.core.core import CoreSetting, get_proxy, divide_line
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 

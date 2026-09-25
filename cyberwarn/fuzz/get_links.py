@@ -4,9 +4,9 @@
 import os
 import requests
 import sys
-from cyberscan.core.header import Headers
-from cyberscan.core.core import get_proxy
-from cyberscan.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
+from cyberwarn.core.header import Headers
+from cyberwarn.core.core import get_proxy
+from cyberwarn.core.colors import RED, RESET, BLUE, GREEN, BOLD, YELLOW
 from bs4 import BeautifulSoup
 
 def recording_urls(file_name:str, urls:[]=None) -> None:
